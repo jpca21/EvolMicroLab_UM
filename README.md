@@ -1,5 +1,5 @@
 # EvolMicroLab_UM
-This repostory is the Main Group Repository.
+This repostory is the Main Group Repository. More info [about the team here](https://github.com/jpca21/EvolMicroLab_UM/blob/main/About_our_lab.md).
 
 # About our server
 ## How to run jobs in the group computer, "coyhaique"

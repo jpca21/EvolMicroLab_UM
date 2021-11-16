@@ -11,7 +11,7 @@ orthofinder.py -f $faas -M msa -y -t 28 -a 8
 Then, checking the species trees from `Species_Tree/SpeciesTree_rooted_node_labels.txt`,
 we have to see if the proper outgroup was selected (this is important for accuracy).
 Usually, orthofinder doesn't select the proper outgroup, but inside `Species_Tree/Potential_Rooted_Species_Trees` 
-creates alternatives trees with different outgroups. We have to pick from there the proper species tree and run orthofinder again, but only the last steps, "from trees" `-ft`:
+creates alternative trees with different outgroups. We have to pick from there the proper species tree and run orthofinder again, but only the last steps, "from trees" `-ft`:
 
 ```sh
 orthofinder.py -ft ${previous_results} -s "${previous_results}/${rooted_tree}" -y -t 28

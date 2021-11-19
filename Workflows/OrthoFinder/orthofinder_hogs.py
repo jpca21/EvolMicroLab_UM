@@ -117,13 +117,13 @@ def copy_hogs(nodes_dir, hogs_path, node_to_use, tree_path, out_dir):
     # Make the output dir if doesn't exist
     Path(out_dir).mkdir(parents=True, exist_ok=True)
 
-    for i,hog in enumerate(hogs_present_inall):
+    for i,hog in enumerate(hogs_single_copy):
         hog_file = f'{node_to_use}.H{hog}.fa'
         hog_path = hogs_path.joinpath(hog_file)
         shutil.copy(hog_path, out_dir)
         
-    assert (i + 1) == len(hogs_present_inall)
-    print(f'Copied {len(hogs_present_inall)} HOGs to {out_dir}')
+    assert (i + 1) == len(hogs_single_copy)
+    print(f'Copied {len(hogs_single_copy)} HOGs to {out_dir}')
     return 0
 
 def main(args=None):

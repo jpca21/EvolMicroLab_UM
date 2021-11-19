@@ -1,0 +1,91 @@
+---
+title: "ggtree"
+output: html_notebook
+---
+## Some `ggtree` examples
+
+See the full documentation here: https://yulab-smu.top/treedata-book/index.html
+
+```{r}
+library(ggplot2)
+# this is for the read.iqtree
+library(treeio)
+library(ggtree)
+# library(ggtreeExtra)
+library(bactaxR)
+# getwd()
+```
+
+
+if the tree only has node labels and nothing else, we can read it with `read.tree()` from `ggtree`
+```{r}
+root <- "/run/media/mibu/ADATA_ext4/Umayor/Work/Blautia/genomes/rep_genomes/new_reprs"
+f <- paste0(root, "/iqtree/repr_alrt.treefile_root")
+tree_alrt_root <- read.iqtree(paste0(f, ".nwk"))
+tree_alrt_root@phylo$tip.label <- gsub('(GCF_[0-9]+.[0-9]{1,2}).*',
+                         "\\1", tree_alrt_root@phylo$tip.label, perl=TRUE)
+tree_alrt_root
+```
+
+
+For comparison with the next tree (before matching the tips and adding the names, etc., useful to make a visual check)
+```{r}
+ggtree(tree_alrt_root) + geom_tiplab() +  xlim(0, 1.15) +
+  geom_nodelab(aes(label=node), size=2, hjust=-0.5)
+```
+
+Here we prepare the metadata, which will be used to annotate the tree
+```{r}
+meta_f <- paste0(root, '/representative_new.tsv')
+file.exists(meta_f)
+meta_names <- read.csv(meta_f, sep = '\t')
+meta_names$Assembly <- gsub('(GCF_[0-9]+.[0-9]{1,2}).*', 
+                         "\\1", meta_names$Assembly , perl=TRUE)
+matches <- match(meta_names$Assembly, tree_alrt_root@phylo$tip.label)
+meta_names <- meta_names[matches, ]
+meta_names
+```
+
+**Important: When using the `%<+%` to add metadata to the tree, always pass a dataframe that has the tips' labels in the first column. That first column will match with the column `label` already present in the tree (which is created by ggtree when we read the tree), and won't be added to the tree data (see the next table)**
+```{r}
+# You can regulate the width of the tree lines using `size`
+p <- ggtree(tree_alrt_root, color='#073D71', size=0.8) %<+% meta_names[, c("Assembly","Genome.name")]
+p$data
+```
+
+```{r}
+p2 <- p + geom_tiplab(aes(label=paste0(Genome.name, " (", label, ")")), 
+                      size=2.5, hjust = -0.02) + xlim(0, 1.4) +
+  geom_nodelab(aes(subset = (UFboot < 100),
+                   label=paste0(UFboot,"/",SH_aLRT)),
+               size=1.5,color='blue', hjust = -0.03) +
+  geom_nodelab(aes(subset = (UFboot == 100),
+                   label=paste0(UFboot,"/",SH_aLRT)),
+               size=1.5, hjust = -0.03) #+ scaleClade(node=NULL,scale=2, vertical_only = TRUE)
+p2
+```
+
+This is a more involved example using the clusters from `bactaxR` as metadata for annotation:
+```{r}
+colors_sns <- c('#db5f57', '#afdb57', '#5797db', '#a757db', '#bf57db', '#9D9D9D' )
+root_trees <- "/Results_Nov12/Species_Tree/"
+# edited tree species_tree_edited.nwk
+f <- paste0(root_trees, 'SpeciesTree_rooted_node_labels.txt') 
+# 
+tree_all <- read.tree(f)
+# ani <- read.ANI(file = "/run/media/mibu/LR-orico_mini/Recovery_ADATA/Umayor/Work/Akker/Verrucomicrobia/FastANI/bactaxR_related/g_akk_prokka_fna.tsv")
+# dend_g_akk <- ANI.dendrogram(bactaxRObject = ani, ANI_threshold = 95, label_size = 0.1)
+# size is important for the width of the tree lines
+p <- ggtree(tree_all, size = 0.1)  %<+%  dend_g_akk$cluster_assignments[c('Genome', 'Cluster')] + xlim(0, 1.15)
+p +  geom_tiplab(size= 1, offset = 0.001) + 
+geom_tippoint(aes(color = factor(Cluster)), size=0.01) +
+  # Position and size of the scale
+   geom_treescale(x= 0, y= -4, fontsize = 2) +
+  scale_color_manual(values=colors_sns) + geom_treescale(x= 0, y=-4, fontsize = 4) +
+guides(color = guide_legend(override.aes = list(size = 1), title = 'Assigned clusters')) + 
+  theme(legend.position = 'bottom', legend.key.size = unit(8, "point"),
+        legend.text = element_text(size = 4), legend.title = element_text(size=8))
+```
+This tree is too big for this format, but when saved as svg with `ggsave` it gets displayed properly.
+
+**Always check `p$data` if the annotation isn't working as expected**

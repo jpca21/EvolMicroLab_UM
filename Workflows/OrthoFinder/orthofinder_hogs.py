@@ -16,7 +16,7 @@ def arg_parser(args):
                                          '  created by Orthofinder. Also, returns a list of HOGs present'
                                          ' in all the genomes but without taking into consideration'
                                          ' if they are single or multi-copy. (all_HOGs_present_in_all.list'
-                                         ' iniside the parent of out_dir)')
+                                         ' inside the parent of out_dir)')
 
     parser.add_argument('nodes_dir',
                         help = 'Path to the directory containing all the Nx.tsv files,'

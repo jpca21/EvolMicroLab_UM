@@ -30,10 +30,10 @@ done by using `create_files_for_hogs.py` included within the Orthofinder source 
 python OrthoFinder/tools/create_files_for_hogs.py  OrthoFinder/${output_dir} \
 ${output_dir}/${hogs_dir} N0
  ```
- This will create all the HOGs sequence files for the node N0, which is the parent of all the nodes. We can select any particular node.
+ This will create all the HOGs sequence files for the node N0, which is the parent of all the nodes. We can select any particular node. We'll pass this directory to the next step, to select single copy HOGs present 
+ in all the genomes
 
- After this is done, we may want to select single copy HOGs present in all the genomes, 
- that is the core genome. To do that we need the file that describes all the OGs present in any particular level, which are in `Phylogenetic_Hierarchical_Orthogroups/`.
+To do that we need the file that describes all the OGs present in any particular level, which are in `Phylogenetic_Hierarchical_Orthogroups/`.
  From there, we can use :
 
 ```sh

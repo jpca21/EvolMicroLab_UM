@@ -115,5 +115,5 @@ Then, we can add this information to the tip labels, separated by ` | `:
 ```R
 p +  geom_tiplab(aes(label=paste0(GTDB_specie, " | ", cluster, " | ", label)), size= 1) + ...
 ```
-Where label is the name of the variable label created by ggtree (see previous table)
+(See previous table to understand the name of the variables used)
 

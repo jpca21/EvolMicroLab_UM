@@ -13,6 +13,8 @@ library(treeio)
 library(ggtree)
 # library(ggtreeExtra)
 library(bactaxR)
+library(tidyr)
+library(stringr)
 # getwd()
 ```
 
@@ -21,6 +23,7 @@ if the tree only has node labels and nothing else, we can read it with `read.tre
 ```{r}
 root <- "/run/media/mibu/ADATA_ext4/Umayor/Work/Blautia/genomes/rep_genomes/new_reprs"
 f <- paste0(root, "/iqtree/repr_alrt.treefile_root")
+file.exists(f)
 tree_alrt_root <- read.iqtree(paste0(f, ".nwk"))
 tree_alrt_root@phylo$tip.label <- gsub('(GCF_[0-9]+.[0-9]{1,2}).*',
                          "\\1", tree_alrt_root@phylo$tip.label, perl=TRUE)
@@ -52,6 +55,7 @@ meta_names
 p <- ggtree(tree_alrt_root, color='#073D71', size=0.8) %<+% meta_names[, c("Assembly","Genome.name")]
 p$data
 ```
+**Always check `p$data` if the annotation isn't working as expected**
 
 ```{r}
 p2 <- p + geom_tiplab(aes(label=paste0(Genome.name, " (", label, ")")), 
@@ -68,7 +72,7 @@ p2
 This is a more involved example using the clusters from `bactaxR` as metadata for annotation:
 ```{r}
 colors_sns <- c('#db5f57', '#afdb57', '#5797db', '#a757db', '#bf57db', '#9D9D9D' )
-root_trees <- "/Results_Nov12/Species_Tree/"
+root_trees <- "/run/media/mibu/LR-orico_mini/Recovery_ADATA/Umayor/Work/Akker/Orthofinder/Results_Nov12/Species_Tree/"
 # edited tree species_tree_edited.nwk
 f <- paste0(root_trees, 'SpeciesTree_rooted_node_labels.txt') 
 # 
@@ -86,6 +90,30 @@ guides(color = guide_legend(override.aes = list(size = 1), title = 'Assigned clu
   theme(legend.position = 'bottom', legend.key.size = unit(8, "point"),
         legend.text = element_text(size = 4), legend.title = element_text(size=8))
 ```
+
 This tree is too big for this format, but when saved as svg with `ggsave` it gets displayed properly.
 
-**Always check `p$data` if the annotation isn't working as expected**
+### Modify tip labels
+
+Here, we use a table with information about the `GTDB-tk` species classification and add it to the tree:
+```{r}
+qc_path <- '/run/media/mibu/LR-orico_mini/Recovery_ADATA/Umayor/Work/Akker/Verrucomicrobia/QC/'
+merged_akk <- read.table(paste0(qc_path, 'merged_akk_hand_edited.tsv'), header=TRUE, sep='\t')
+# Create a new column representing the gtdb species classification
+merged_akk$'GTDB_specie' <- merged_akk$classification %>% str_extract('(s_.+)')
+head(merged_akk)
+```
+
+```{r}
+p <- ggtree(tree_all, size = 0.1)  %<+%  dend_g_akk$cluster_assignments[c('Genome', 'Cluster')] %<+%
+  merged_akk[c('Genome', 'GTDB_specie')]
+head(p$data)
+```
+
+Then, we can add this information to the tip labels, separated by ` | `:
+
+```R
+p +  geom_tiplab(aes(label=paste0(GTDB_specie, " | ", cluster, " | ", label)), size= 1) + ...
+```
+Where label is the name of the variable label created by ggtree (see previous table)
+

@@ -43,7 +43,7 @@ python single_copy_hogs.py -h
 python single_copy_hogs.py Phylogenetic_Hierarchical_Orthogroups/ N50  N50/HOG_Sequences Species_Tree/SpeciesTree_rooted_node_labels.txt /output/dir
 # copy the sequence for each hog using gnu parallel or any other method:
 mkdir -p scogs_n50_seqs
-parallel  "cp OrthoFinder/${output_dir}/N50.{}.fa scogs_n50_seqs" :::: single_copy_HOGs_N50.list
+parallel  "cp OrthoFinder/${output_dir}/N50.H{}.fa scogs_n50_seqs" :::: single_copy_HOGs_N50.list
  ```
 
  `N50.{}.fa` is the file name of the sequences. `parallel` will replace the `{}` with the OG

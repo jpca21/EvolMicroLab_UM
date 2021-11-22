@@ -1,0 +1,49 @@
+#!/bin/bash -l
+
+#SBATCH --nodes=1
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=1
+#SBATCH --mem=8G
+#SBATCH --job-name=hogs_clades
+#SBATCH --output=hogs_from_clades.out
+#SBATCH --error=hogs_from_clades.err
+
+# set -x 
+source /home/jmaturana/.bashrc
+conda deactivate
+export PATH="/home/jmaturana/miniconda3/envs/bif2021.1/bin:$PATH"
+
+
+which diamond
+diamond version
+
+# root where all the orthofinder results are places
+root="$HOME/Akker/g_akk_prokka_faa/OrthoFinder"
+# Specific results from orthofinder, where all the target files are located
+results_dir="${root}/Results_Nov12"
+# Nx.tsv files
+Ns="${results_dir}/Phylogenetic_Hierarchical_Orthogroups"
+# Species tree
+tree="${results_dir}/Species_Tree/SpeciesTree_rooted_node_labels.txt"
+# The orthofinder source code
+py_create="${HOME}/Software/OrthoFinder/tools/create_files_for_hogs.py"
+# Script to select the single-copy HOGs
+py_single_copy="${HOME}/Software/my_scripts/single_copy_hogs.py"
+
+# Move inside the orthofinder results to place all the output there
+cd $results_dir
+# Select a set of nodes from the species tree
+for node in N25 N24 N40 N9 N8 N27 N8; 
+    do
+        # Create all the HOGs sequences for each node
+        python $py_create $results_dir . $node
+        # Select the single-copy HOGs for each node
+        python $py_single_copy $Ns $node "${node}/HOG_Sequences" $tree
+        # copy the the single-copy HOGs
+        mkdir -p scogs_${node}_seqs
+        parallel "cp ${node}/HOG_Sequences/${node}.H{}.fa scogs_${node}_seqs" \
+         :::: single_copy_HOGs_${node}.list
+    done
+
+# Compress the sequences created by $py_create
+tar -cf hogs_seqs_nodes.tar.gz N*

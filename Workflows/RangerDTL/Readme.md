@@ -101,5 +101,6 @@ python (`>=3.6`) libraries:
 - `ete3 >= 3.1.2`
 
 others:
-`orthofinder >= 2.5`
-`gnu parallel >= 2021`
+
+- `orthofinder >= 2.5`
+- `gnu parallel >= 2021`

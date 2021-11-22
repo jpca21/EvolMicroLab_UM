@@ -1,0 +1,59 @@
+---
+title: "BactaxR"
+output: html_notebook
+---
+
+## Install a modified version of `bactaxR`
+
+Follow the installation instructions in the original repository, https://github.com/lmc297/bactaxR. Then, after installing the dependencies, install the library from my repository:
+
+```{r}
+# library(devtools)
+# install_github("matrs/bactaxR")
+```
+
+
+This version adds 1 line to the original code, to make it possible to run it with fastani tables which have missing pairs (`fastani` doesn't report pairs when the ANI is below a threshold, which is hard-coded)
+
+```{r}
+library(bactaxR)
+```
+
+## Read the output from `fastani`
+
+Create an `ani` object.
+```{r}
+ani <- read.ANI(file = "../g_akk_gtdb.tsv")
+h <- ANI.histogram(bactaxRObject = ani, bindwidth = 0.1)
+h
+```
+## Generate multiple clusters' tables using different ANIs thresholds
+
+using multiple ANI thresholds, we can create multiple clusterings. See what the `dend` object has:
+
+```{r}
+dend <- ANI.dendrogram(bactaxRObject = ani, ANI_threshold = 95, label_size = 0.5)
+head(dend$cluster_assignments)
+```
+
+Create one table per ANI:
+```{r eval=FALSE}
+# from ANI 95 to 97 in 0.5 steps
+for (i in seq(95, 97, 0.5)){
+  cat(i,'\n')
+  dend_g_akk <- ANI.dendrogram(bactaxRObject = ani, ANI_threshold = i, label_size = 0.1)
+  write.table(dend_g_akk$cluster_assignment, file=paste0('g_akk_clusters_', i, '.tsv'), 
+            row.names = FALSE, quote=FALSE, sep='\t')
+}
+```
+
+These tables can be used to parse multiple species trees and see if a particular ANI coincides the best with the tree. Also, we can generate cluster visualizations:
+
+```{r}
+metadata <- dend_g_akk$cluster_assignments$Cluster
+names(metadata) <- dend_g_akk$cluster_assignments$Genome
+g_akk_ani_clust_plot <- ANI.graph(bactaxRObject = ani, ANI_threshold = 95,
+          metadata = metadata,
+          legend_pos_x = -1.5, show_legend = T, graphout_niter = 1000000, 
+          legend_ncol = 1, edge_color = hcl(h = 168, c = 5, l = 58, alpha = 0.1), legend_cex = 1.2)
+```

@@ -93,3 +93,13 @@ python aggregate_aggs.py $aggregated_dir $sname_dict
 ```
 
 **Look for `nodes_events.tsv`**
+
+## Dependencies
+
+python (`>=3.6`) libraries:
+
+- `ete3 >= 3.1.2`
+
+others:
+`orthofinder >= 2.5`
+`gnu parallel >= 2021`

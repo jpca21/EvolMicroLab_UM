@@ -17,7 +17,7 @@ export PATH="/home/jmaturana/miniconda3/envs/bif2021.1/bin:$PATH"
 which diamond
 diamond version
 
-# root where all the orthofinder results are places
+# root where all the orthofinder results are placed
 root="$HOME/Akker/g_akk_prokka_faa/OrthoFinder"
 # Specific results from orthofinder, where all the target files are located
 results_dir="${root}/Results_Nov12"

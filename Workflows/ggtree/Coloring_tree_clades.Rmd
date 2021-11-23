@@ -1,0 +1,34 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+```{r}
+root_trees <- "/run/media/mibu/LR-orico_mini/Recovery_ADATA/Umayor/Work/Akker/Orthofinder/Results_Nov12/Species_Tree/"
+# edited tree species_tree_edited.nwk
+# species_tree_96.5.nwk
+# SpeciesTree_rooted_node_labels.txt
+f <- paste0(root_trees, 'species_tree_96.5.nwk') 
+# 
+tree_ed <- read.newick(f, "label")
+tree_ed
+```
+
+
+```{r}
+colors_sns <- c('#1f77b4', '#ff7f0e', '#2ca02c', '#e377c2', '#7f7f7f', '#bcbd22')
+nodes <- c('N25', 'N24', 'N40', 'N9', 'N8', 'N27', 'N8')
+p <- ggtree(tree_ed, size = 0.1) + xlim(0, 1.15)
+# see the column label (has node and tip labels)
+tail(p$data, 50)
+# node numbering is different from labels, but we can get them by:
+gg_nodes <- p$data$node[p$data$label %in% nodes]
+p +  geom_tiplab(size= 1, offset = 0.001) + 
+geom_tippoint(size=0.01) + geom_hilight(mapping=aes(subset = node %in% gg_nodes), fill=colors_sns, alpha=.3) +
+  # Position and size of the scale
+   geom_treescale(x= 0, y= -4, fontsize = 2) +
+  theme(legend.position = 'bottom', legend.key.size = unit(8, "point"),
+        legend.text = element_text(size = 4), legend.title = element_text(size=8))
+# ggsave('orthof_clades.svg')
+```
+

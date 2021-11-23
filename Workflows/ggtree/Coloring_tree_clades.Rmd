@@ -4,7 +4,7 @@ output: html_notebook
 ---
 
 ```{r}
-root_trees <- "/run/media/mibu/LR-orico_mini/Recovery_ADATA/Umayor/Work/Akker/Orthofinder/Results_Nov12/Species_Tree/"
+# root_trees <- "Results_Nov12/Species_Tree/"
 # edited tree species_tree_edited.nwk
 # species_tree_96.5.nwk
 # SpeciesTree_rooted_node_labels.txt

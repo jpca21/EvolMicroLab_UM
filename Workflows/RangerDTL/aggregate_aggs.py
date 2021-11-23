@@ -11,12 +11,13 @@ from argparse import ArgumentParser, ArgumentDefaultsHelpFormatter
 
 def arg_parser(args):
     parser = ArgumentParser(formatter_class=ArgumentDefaultsHelpFormatter, 
-                            description='Takes the directory where all the output from AggregateRanger are placed'
-                                         " and creates a single summary (final) table named 'nodes_events.tsv'."
+                            description='Takes the directory where the output from AggregateRanger is placed'
+                                         " and creates a single summary table named 'nodes_events.tsv'."
                                          ' The table will be written into the parent folder of the aggregated files')
 
     parser.add_argument('aggregated_dir', help = 'Folder where all the aggregated files are located')
-    parser.add_argument('snames_dict', help='Species names to random string dictionary (pickle).')
+    parser.add_argument('snames_dict', help= 'Species names to random string dictionary (pickle).')
+    parser.add_argument('n_seeds', type= int, help= 'Number of seeds used to run ranger-dtl')
     parser.add_argument('-aggregate_bin', 
                                     help="Path to the AggregateRanger.linux file, which should be inside"
                                     " CorePrograms/ ")
@@ -49,8 +50,8 @@ def main(args=None):
                 nodes_events[a.group(5)].append([a.group(1), a.group(2), a.group(3), a.group(4),a.group(6)])
 
     ###Writes the summary table ###
-    n_seeds = 100 #number of seeds used with ranger-dtl
-    total = n_seeds * 3 # 3 because that's the number of DTL combinations run
+    n_seeds = args.n_seeds #number of seeds used with ranger-dtl
+    total = n_seeds * 3 # 3 because that's the number of DTL combinations used with ranger-dtl
     out_f = Path('nodes_events.tsv')
     if out_f.exists():
         os.remove(out_f)

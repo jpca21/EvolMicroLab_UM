@@ -33,6 +33,7 @@ def arg_parser(args):
     parser.add_argument('snames_dict', 
                                     help='Species names to random string dictionary (pickle).'
                                     ' ')
+    parser.add_argument('n_seeds', type=int, help= 'Number of seeds used to run ranger-dtl')
     parser.add_argument('out_dir', help = 'Output directory where the tree and dictionary will be placed.')
     parser.add_argument('-ranger_bin', 
                                     help="Path to the Ranger-DTL.linux file, which should be inside"
@@ -80,11 +81,6 @@ def convert_names(tree_file, names_dict, out_dir):
     return(ete_tree)
 
 
-D,T,L = [2,3,2],[3,3,4],[1,1,1]
-n_seeds = 3
-print(f'Number of different seeds {n_seeds}')
-
-
 def main(args=None):
     args = arg_parser(args)
     ranger = args.ranger_bin
@@ -112,6 +108,9 @@ def main(args=None):
     os.remove(gtree_outf)
     print(stem_og)
     i = 0
+    D,T,L = [2,3,2],[3,3,4],[1,1,1]
+    n_seeds = args.n_seeds 
+    print(f'Number of different seeds {n_seeds}')
     for seed in range(1, n_seeds+1):
         # print('Looping, seed = ', seed)
         for d,t,l in zip(D,T,L):
@@ -132,4 +131,3 @@ def main(args=None):
 
 if __name__ == "__main__":
     main()
-    

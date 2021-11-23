@@ -20,9 +20,24 @@ python edit_species_tree.py SpeciesTree_rooted_node_labels.txt /output/dir
 ```
 The output of this step, an edited tree and a `pkl` file,  will be used with `ranger-dtl_pipeline.py`
 
-## 1.2. Select trees for each single-copy HOG ("scogs")
+## 1.2. Create HOGs for N1
 
-As rooted gene trees, we'll use the single-copy resolved gene trees from `Resolved_Gene_Trees/` 
+We can create the HOGs sequences from a specific hierarchical level,
+which is the node name in `Species_Tree/SpeciesTree_rooted_node_labels.txt`. This is
+done by  `create_files_for_hogs.py` included within the OrthoFinder source code. See
+`Workflows/OrthoFinder/orthofinder_HOGs_worflow.md` for details.  **The N1 node has the particularity that should include all the genomes except the outgroup**.
+
+```sh
+# orthofinder source
+py_create="path_to/create_files_for_hogs.py"
+root="output/path"
+# This will create files in N0/HOG_Sequences/
+python $py_create  $root . N1
+```
+
+## 1.3. Select trees for each single-copy HOG ("scogs")
+
+As rooted gene trees, we'll use the single-copy resolved gene trees from `Resolved_Gene_Trees/`
 inside the OrthoFinder results directory. We create a list of single-copy OGs "scogs":
 
 ```sh
@@ -37,9 +52,9 @@ parallel  "cp ../Resolved_Gene_Trees/{}_tree.txt scogs_n50_trees" :::: single_co
 
  `../Resolved_Gene_Trees/` is the path to (all) the trees. Parallel will place the name of the HOG in place of the  `{}`.
 
-## 1.3. Run the pipeline
+## 1.4. Run the pipeline
 
-`ranger-dtl_pipeline.py` includes most of the steps to run  `Ranger-DTL.linux` and `AggregateRanger.linux` .
+`ranger-dtl_pipeline.py` runs `Ranger-DTL.linux` and `AggregateRanger.linux` .
 You may pass the path to those binaries  (included within the source of the program). If you already
 have those in your path, this isn't needed. Also, we have to pass the modified species tree and the dictionary (`.pkl` 
 file) from the `edit_species_tree.py` step, and the input trees from the previous step ("scogs" trees).

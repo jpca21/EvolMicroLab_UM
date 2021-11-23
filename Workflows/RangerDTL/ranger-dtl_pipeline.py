@@ -70,6 +70,7 @@ def create_gene_dict(tree_file, names_dict, out_dir):
 
 def convert_names(tree_file, names_dict, out_dir):
     '''Takes as input a gene tree, not a species tree'''
+    print(f"This is the tree: {tree_file}")
     ete_tree = Tree(tree_file, format= 1)
     with open(names_dict, 'rb') as handle:
         names_dict = pickle.load(handle)

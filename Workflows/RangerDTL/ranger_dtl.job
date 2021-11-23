@@ -1,0 +1,89 @@
+#!/bin/bash -l
+
+#SBATCH --nodes=1
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=28
+#SBATCH --mem=20G
+#SBATCH --job-name=rangerdtl
+#SBATCH --output=ranger_dtl.out
+#SBATCH --error=ranger_dtl.err
+
+# This was run in darwin
+
+source ~/.bashrc
+conda deactivate
+export PATH="/home/jmaturana/miniconda3/envs/bif2021.1/bin:$PATH"
+
+
+### edit species input_tree ###
+root="$HOME/Akker/g_akk_prokka_faa/OrthoFinder/Results_Nov12"
+edit_sp="$HOME/scripts/cli_tools/RangerDTL/edit_species_tree.py"
+sp_tree="$HOME/Akker/g_akk_prokka_faa/OrthoFinder/Results_Nov12/Species_Tree/\
+SpeciesTree_rooted_node_labels.txt"
+
+cd $root
+python $edit_sp $sp_tree .
+# output:species_tree_edited_rand_N0.nwk sname_to_rand.pkl
+
+
+### Create HOGs for N0 ###
+
+# orthofinder source
+py_create="$HOME/Software/OrthoFinder/tools/create_files_for_hogs.py"
+
+# This will create file in $root/N0/HOG_Sequences/
+python $py_create  $root . N1
+
+### Select trees for each single-copy HOG ("scogs") ###
+
+# Where the Nx.tsv files are
+nodes_dir="${root}/Phylogenetic_Hierarchical_Orthogroups"
+single_copy_hogs="/home/jmaturana/scripts/cli_tools/single_copy_hogs.py"
+
+python $single_copy_hogs $nodes_dir N1 $root/N1/HOG_Sequences $sp_tree
+# output: $root/single_copy_HOGs_N0.list
+
+# copy the single-copy sequences using the output list
+N_trees_dir="scogs_N1_trees"
+mkdir -p $N_trees_dir
+parallel  "cp ${root}/Resolved_Gene_Trees/{}_tree.txt $N_trees_dir" :::: $root/single_copy_HOGs_N1.list
+
+### Run the ranger pipeline ###
+
+echo `date`
+SECONDS=0
+
+py_ranger="$HOME/scripts/cli_tools/RangerDTL/ranger-dtl_pipeline.py"
+# From $edit_sp
+edited_stree="${root}/species_tree_edited_rand_N0.nwk"
+sname_dict="${root}/sname_to_rand.pkl"
+# from $py_create
+input_trees="$root/$N_trees_dir"
+# The output files will be here:
+output_dir="${root}/RangerDTL"
+# number of seeds: 100-500
+n_seeds=500
+# Ranger binaries
+RangerDTL="$HOME/Software/RangerDTL_Linux/CorePrograms/Ranger-DTL.linux"
+AggregateRanger="$HOME/Software/RangerDTL_Linux/CorePrograms/AggregateRanger.linux"
+
+# It should be run with gnu parallel because iterates 100s of times over 100+ HOGs
+ncpus=$SLURM_CPUS_PER_TASK
+parallel -j $ncpus "python $py_ranger $edited_stree {} $sname_dict $n_seeds ${output_dir} \
+ -ranger_bin $RangerDTL -aggregate_bin $AggregateRanger" ::: ${input_trees}/*.txt
+
+wait
+
+#  AggregateRanger is hardcoded into ranger-dtl_pipeline.py
+aggregated_dir="${output_dir}/AggregateRanger"
+py_agg="/home/jmaturana/scripts/cli_tools/RangerDTL/aggregate_aggs.py"
+# Takes all the aggregated files and creates a single summary table
+# Needs tne $n_seeds because compute stats and the number of runs/files matter
+python $py_agg $aggregated_dir $sname_dict $n_seeds
+# ${output_dir}/nodes_events.tsv should be the final table
+
+tar -cf ranger_dtl_out.tar.gz $edited_stree $sname_dict ${output_dir}/nodes_events.tsv
+
+duration=$SECONDS
+echo "$(($duration / 60)) minutes and $(($duration % 60)) seconds elapsed."
+echo `date`

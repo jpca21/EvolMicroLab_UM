@@ -3,7 +3,7 @@ title: "R Notebook"
 output: html_notebook
 ---
 
-## Read the tree
+### Read the tree
 ```{r}
 # root_trees <- "Results_Nov12/Species_Tree/"
 # edited tree species_tree_edited.nwk
@@ -15,7 +15,8 @@ tree_ed <- read.newick(f, "label")
 tree_ed
 ```
 
-Nodes labels in ggtree inclkudes the leaves and the internal nodes. See the column `label`, towards the end of it to see the node labels created by OrthoFinder.
+Nodes' labels in `ggtree` include the leaves and the internal nodes. See the column `label`, towards the end of it, to see the node labels created by OrthoFinder.
+
 ```{r}
 p <- ggtree(tree_ed, size = 0.1) + xlim(0, 1.15)
 # see the column label (has node and tip labels)

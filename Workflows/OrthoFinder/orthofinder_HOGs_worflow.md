@@ -1,8 +1,8 @@
 # Hierarchical OGs pipeline
 
-The new orthofinder pipeline defines Hierarchical OGs (HOGs) using the
-rooted gene trees instead of the gene graph approach (MCL like). According to the author, this is 12% more accurate that the previous orthofinder and other software.
-The first step is to run orthofinder as always. I use the `msa` option but it isn't mandatory:
+The new OrthoFinder pipeline defines Hierarchical OGs (HOGs) using the
+rooted gene trees instead of the gene graph approach (MCL like). According to the author, this is 12% more accurate that the previous OrthoFinder and other software.
+The first step is to run OrthoFinder as always. I use the `msa`  option because can get you a more accurate species tree/results, but it isn't mandatory :
 
 ```sh
 orthofinder.py -f $faas -M msa -y -t 28 -a 8
@@ -10,17 +10,15 @@ orthofinder.py -f $faas -M msa -y -t 28 -a 8
 
 Then, checking the species trees from `Species_Tree/SpeciesTree_rooted_node_labels.txt`,
 we have to see if the proper outgroup was selected (this is important for accuracy).
-Usually, orthofinder doesn't select the proper outgroup, but inside `Species_Tree/Potential_Rooted_Species_Trees`
-creates alternative trees with different outgroups. We have to pick from there the proper species tree and run orthofinder again, but only the last steps, "from trees" `-ft`:
+Usually, OrthoFinder doesn't select the proper outgroup, but inside `Species_Tree/Potential_Rooted_Species_Trees`
+creates alternative trees with different outgroups. Pick from there the proper species tree and run OrthoFinder again, but only the last steps, "from trees" `-ft`:
 
 ```sh
 orthofinder.py -ft ${previous_results} -s "${previous_results}/${rooted_tree}" -y -t 28
 ```
 
 where `$previous_results` is the previous output's directory and `rooted_tree` is the
-selected tree with the proper outgroup. This run takes a small fraction of the original run, because all the comparisons between sequences are already done. This creates the
-tree `SpeciesTree_rooted_node_labels.txt`, which is the same tree we picked in the previous step and we will use in the future.
-
+selected tree with the proper outgroup. This run takes a small fraction of the original run's time, because all the comparisons between sequences are already done. The result from this run wil be used from now on.
 Once this is done, we can create the HOGs sequences from a specific hierarchical level,
 which is the node name in `Species_Tree/SpeciesTree_rooted_node_labels.txt`. This is
 done by using `create_files_for_hogs.py` included within the OrthoFinder source code.
@@ -57,5 +55,5 @@ python (`>=3.6`) libraries:
 - `pandas >= 1.1`
 
 others:
-`orthofinder >= 2.5`
-`gnu parallel >= 2021`
+- `orthofinder >= 2.5`
+- `gnu parallel >= 2021`

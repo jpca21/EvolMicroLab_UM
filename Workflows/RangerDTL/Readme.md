@@ -1,8 +1,10 @@
 # 1. Ranger-DTL pipeline
 
-For general info abour `Ranger-DTL`  see:
+For general info about `Ranger-DTL`  see:
 
 <https://compbio.engr.uconn.edu/software/ranger-dtl/>
+
+**For a sbatch example, check `Workflows/`RangerDTL/ranger_dtl.job`**
 
 `Ranger-DTL` needs a species tree and gene trees. It  accepts rooted or un-rooted trees, 
 but the default pipeline works with rooted trees. OrthoFinder produces rooted species and

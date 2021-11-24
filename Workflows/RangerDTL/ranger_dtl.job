@@ -62,7 +62,7 @@ input_trees="$root/$N_trees_dir"
 # The output files will be here:
 output_dir="${root}/RangerDTL"
 # number of seeds: 100-500
-n_seeds=500
+n_seeds=200
 # Ranger binaries
 RangerDTL="$HOME/Software/RangerDTL_Linux/CorePrograms/Ranger-DTL.linux"
 AggregateRanger="$HOME/Software/RangerDTL_Linux/CorePrograms/AggregateRanger.linux"

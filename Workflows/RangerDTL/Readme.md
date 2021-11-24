@@ -4,7 +4,7 @@ For general info about `Ranger-DTL`  see:
 
 <https://compbio.engr.uconn.edu/software/ranger-dtl/>
 
-**For a sbatch example, check `Workflows/`RangerDTL/ranger_dtl.job`**
+**For a sbatch example, check `Workflows/RangerDTL/ranger_dtl.job`**
 
 `Ranger-DTL` needs a species tree and gene trees. It  accepts rooted or un-rooted trees, 
 but the default pipeline works with rooted trees. OrthoFinder produces rooted species and
@@ -96,7 +96,7 @@ input_trees="scogs_test_trees"
 output_dir="RangerDTL_test"
 # number of cores, change it according to your system resources
 n_cores=12
-# n_seeds=3
+n_seeds=3
 # See the help
 python ranger-dtl_pipeline.py -h
 ## Remember to use the proper path for the python script ##
@@ -105,7 +105,7 @@ parallel -j $n_cores "python ranger-dtl_pipeline.py $edited_stree \
 
 ##See the results in "${output_dir}/AggregateRanger"##
 
-# AggregateRanger is hardcoded into ranger-dtl_pipeline.py so don't change it
+# AggregateRanger folder is hardcoded into ranger-dtl_pipeline.py so don't change it
 aggregated_dir="${output_dir}/AggregateRanger"
 
 # Takes all the aggregated files and creates a single summary table.

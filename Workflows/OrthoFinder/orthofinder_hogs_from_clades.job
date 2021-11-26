@@ -37,7 +37,7 @@ echo current path: `pwd`
 for node in {0..13}; #N25 N24 N40 N9 N8 N27 N8; 
     do
         # Create all the HOGs sequences for each node
-        # inside HOGs_seqs will be the seqs, all the dirs will be created
+        # HOGs_seqs is the output dir, it will automatically be created
         python $py_create $results_dir HOGs_seqs N$node
         # Select the single-copy HOGs for each node
         python $py_single_copy $Ns N$node "HOGs_seqs/N${node}/HOG_Sequences" $tree
@@ -46,7 +46,7 @@ for node in {0..13}; #N25 N24 N40 N9 N8 N27 N8;
         dest="single_copy_HOGs/scogs_N${node}_seqs"
         mkdir -p $dest
         # copy the the single-copy HOGs
-        parallel "cp N${node}/HOG_Sequences/{}.fa $dest" \
+        parallel "cp HOGs_seqs/N${node}/HOG_Sequences/{}.fa $dest" \
          :::: single_copy_HOGs_N${node}.list
     done
 

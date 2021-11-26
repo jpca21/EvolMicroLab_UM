@@ -64,7 +64,7 @@ it will run `AggregateRanger.linux` to aggregate those results (one file per tre
 inside "${output_dir}/AggregateRanger" (see below)
 
 **`-n_seeds 3` is only ok for testing. Change it to  `100`-`500` for an "official" run and use
-16+ cores. For a couple hundreds of HOGs it should run in 2-3 hours or less for 200-300 seeds. It's important to use `gnu parallel` 
+16+ cores. For a couple hundreds of HOGs and 200 species it should run in 2 hours or less for 200-300 seeds. It's important to use `gnu parallel` 
 to run this script because one is iterating hundreds of times over 100+ single-copy gene trees**
 
 We pick a few HOGs to test this pipeline:

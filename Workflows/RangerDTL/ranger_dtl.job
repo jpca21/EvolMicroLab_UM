@@ -16,73 +16,61 @@ export PATH="/home/jmaturana/miniconda3/envs/bif2021.1/bin:$PATH"
 
 
 ### edit species input_tree ###
-root="$HOME/Akker/g_akk_prokka_faa/OrthoFinder/Results_Nov12"
-edit_sp="$HOME/scripts/cli_tools/RangerDTL/edit_species_tree.py"
-sp_tree="$HOME/Akker/g_akk_prokka_faa/OrthoFinder/Results_Nov12/Species_Tree/\
-SpeciesTree_rooted_node_labels.txt"
+root="${HOME}/Akker/g_akk_prokka_faa_repr_fast/OrthoFinder"
+orth_results="Results_Nov25"
+py_edit_tree="${HOME}/scripts/cli_tools/RangerDTL/edit_species_tree.py"
+sp_tree="${root}/${orth_results}/Species_Tree/SpeciesTree_rooted_node_labels.txt"
+orth_results="Results_Nov25"
 
-cd $root
-python $edit_sp $sp_tree .
-# output:species_tree_edited_rand_N0.nwk sname_to_rand.pkl
+# Go inside the particular orthofinder results directory
+cd $root/$orth_results
+# Edited trees will go into Species_Tree/
+python $py_edit_tree $sp_tree Species_Tree/
+# output: Species_Tree/species_tree_edited_rand_N0.nwk Species_Tree/sname_to_rand.pkl
 
+### Select trees for each single-copy OG ###
 
-### Create HOGs for N0 ###
+# already inside orthofinder results directory
+mkdir single_copy_trees
+parallel  "cp Resolved_Gene_Trees/{/.}_tree.txt single_copy_trees" ::: Single_Copy_Orthologue_Sequences/*
 
-# orthofinder source
-py_create="$HOME/Software/OrthoFinder/tools/create_files_for_hogs.py"
-
-# This will create file in $root/N0/HOG_Sequences/
-python $py_create  $root . N1
-
-### Select trees for each single-copy HOG ("scogs") ###
-
-# Where the Nx.tsv files are
-nodes_dir="${root}/Phylogenetic_Hierarchical_Orthogroups"
-single_copy_hogs="/home/jmaturana/scripts/cli_tools/single_copy_hogs.py"
-
-python $single_copy_hogs $nodes_dir N1 $root/N1/HOG_Sequences $sp_tree
-# output: $root/single_copy_HOGs_N0.list
-
-# copy the single-copy sequences using the output list
-N_trees_dir="scogs_N1_trees"
-mkdir -p $N_trees_dir
-parallel  "cp ${root}/Resolved_Gene_Trees/{}_tree.txt $N_trees_dir" :::: $root/single_copy_HOGs_N1.list
 
 ### Run the ranger pipeline ###
 
 echo `date`
 SECONDS=0
 
-py_ranger="$HOME/scripts/cli_tools/RangerDTL/ranger-dtl_pipeline.py"
+node_to_use="N1"
+py_ranger="${HOME}/scripts/cli_tools/RangerDTL/ranger-dtl_pipeline.py"
 # From $edit_sp
-edited_stree="${root}/species_tree_edited_rand_N0.nwk"
-sname_dict="${root}/sname_to_rand.pkl"
+edited_stree="${root}/${orth_results}/Species_Tree/species_tree_edited_rand_N0.nwk"
+sname_dict="${root}/${orth_results}/Species_Tree/sname_to_rand.pkl"
 # from $py_create
-input_trees="$root/$N_trees_dir"
+input_trees="${root}/${orth_results}/single_copy_trees"
 # The output files will be here:
-output_dir="${root}/RangerDTL"
+output_dir="${root}/${orth_results}/RangerDTL"
 # number of seeds: 100-500
 n_seeds=200
 # Ranger binaries
-RangerDTL="$HOME/Software/RangerDTL_Linux/CorePrograms/Ranger-DTL.linux"
-AggregateRanger="$HOME/Software/RangerDTL_Linux/CorePrograms/AggregateRanger.linux"
+RangerDTL="${HOME}/Software/RangerDTL_Linux/CorePrograms/Ranger-DTL.linux"
+AggregateRanger="${HOME}/Software/RangerDTL_Linux/CorePrograms/AggregateRanger.linux"
 
 # It should be run with gnu parallel because iterates 100s of times over 100+ HOGs
 ncpus=$SLURM_CPUS_PER_TASK
 parallel -j $ncpus "python $py_ranger $edited_stree {} $sname_dict $n_seeds ${output_dir} \
- -ranger_bin $RangerDTL -aggregate_bin $AggregateRanger" ::: ${input_trees}/*.txt
+ $RangerDTL $AggregateRanger" ::: ${input_trees}/*.txt
 
 wait
 
-#  AggregateRanger is hardcoded into ranger-dtl_pipeline.py
+#  AggregateRanger dir is hardcoded into ranger-dtl_pipeline.py
 aggregated_dir="${output_dir}/AggregateRanger"
 py_agg="/home/jmaturana/scripts/cli_tools/RangerDTL/aggregate_aggs.py"
 # Takes all the aggregated files and creates a single summary table
-# Needs tne $n_seeds because compute stats and the number of runs/files matter
+# Needs the $n_seeds because the number of runs/files matter for the stats
 python $py_agg $aggregated_dir $sname_dict $n_seeds
 # ${output_dir}/nodes_events.tsv should be the final table
 
-tar -cf ranger_dtl_out.tar.gz $edited_stree $sname_dict ${output_dir}/nodes_events.tsv
+tar -cf ranger_dtl_out.tar.gz $edited_stree $sname_dict $aggregated_dir ${output_dir}/nodes_events.tsv
 
 duration=$SECONDS
 echo "$(($duration / 60)) minutes and $(($duration % 60)) seconds elapsed."

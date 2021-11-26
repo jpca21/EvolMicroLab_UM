@@ -17,9 +17,8 @@ The second relevant bug is reported here (includes the solution), and affects `t
 
 <https://github.com/davidemms/OrthoFinder/issues/647>
 
-## `orthofinder_hogs_from_clades.job`
+### `orthofinder_hogs_from_clades.job`
 
 This script generates single-copy HOGs from a list of nodes. These nodes
-have to be selected from the species tree generated after running `orthofinder -ft -s tree_file` (see `Workflows/OrthoFinder/orthofinder_HOGs_worflow.md`). The idea is to select nodes that have as children groups of genomes classified as the same species.
-These can be done using parsed trees with the `GTDB` species classification as the tips/leaves labels. See `Trees_ete3/ete3_tree_parsing.ipynb` as a parsing example.
-**Check the results in  `/mnt/DATA/jmaturana/OrthoFinder/Results_Nov25` inside `coyhaique`**
+have to be selected from the species tree generated after running `orthofinder -ft -s tree_file` (see `Workflows/OrthoFinder/orthofinder_HOGs_worflow.md`).
+**Check the results in `single_copy_HOGs/` and `HOGs_seqs/` inside `/mnt/DATA/jmaturana/OrthoFinder/Results_Nov25/HOGs_seqs` `@coyhaique`**

@@ -4,7 +4,8 @@ For general info about `Ranger-DTL`  see:
 
 <https://compbio.engr.uconn.edu/software/ranger-dtl/>
 
-**For a sbatch example, check `Workflows/RangerDTL/ranger_dtl.job`**
+**For a sbatch example, check `Workflows/RangerDTL/ranger_dtl.job` in the repo and see the results
+in  `/mnt/DATA/jmaturana/OrthoFinder/Results_Nov25` inside `coyhaique`**
 
 `Ranger-DTL` needs a species tree and gene trees. It  accepts rooted or un-rooted trees, 
 but the default pipeline works with rooted trees. OrthoFinder produces rooted species and

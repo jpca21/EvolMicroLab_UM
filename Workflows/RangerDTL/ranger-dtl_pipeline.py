@@ -35,11 +35,11 @@ def arg_parser(args):
                                     ' ')
     parser.add_argument('n_seeds', type=int, help= 'Number of seeds used to run ranger-dtl')
     parser.add_argument('out_dir', help = 'Output directory where the tree and dictionary will be placed.')
-    parser.add_argument('-ranger_bin', 
-                                    help="Path to the Ranger-DTL.linux file, which should be inside"
+    parser.add_argument('ranger_bin', 
+                                    help="Path to the Ranger-DTL.linux file, look inside"
                                     " CorePrograms/ ")
-    parser.add_argument('-aggregate_bin', 
-                                    help="Path to the AggregateRanger.linux file, which should be inside"
+    parser.add_argument('aggregate_bin', 
+                                    help="Path to the AggregateRanger.linux file, which look inside"
                                     " CorePrograms/ ")
     args = parser.parse_args()
     

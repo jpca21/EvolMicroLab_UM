@@ -18,7 +18,7 @@ def arg_parser(args):
     parser.add_argument('aggregated_dir', help = 'Folder where all the aggregated files are located')
     parser.add_argument('snames_dict', help= 'Species names to random string dictionary (pickle).')
     parser.add_argument('n_seeds', type= int, help= 'Number of seeds used to run ranger-dtl')
-    parser.add_argument('-aggregate_bin', 
+    parser.add_argument('aggregate_bin', 
                                     help="Path to the AggregateRanger.linux file, which should be inside"
                                     " CorePrograms/ ")
     args = parser.parse_args()

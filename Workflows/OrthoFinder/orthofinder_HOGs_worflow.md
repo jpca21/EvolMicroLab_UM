@@ -29,7 +29,7 @@ python OrthoFinder/tools/create_files_for_hogs.py  OrthoFinder/${output_dir} \
 ${output_dir}/${hogs_dir} N1
  ```
 
- This will create all the HOGs sequence files for the node N1 but we could select any particular node.
+ This will create all the HOGs sequence files for the node N1 but we could select any node.
  **The N1 node has the particularity that should include all the genomes except the outgroup**.
  We'll pass this directory to the next step, to select single copy HOGs present in all these genomes.
 

@@ -17,10 +17,10 @@ export PATH="/home/jmaturana/miniconda3/envs/bif2021.1/bin:$PATH"
 which diamond
 diamond version
 
-# root where all the orthofinder results are placed
-root="$HOME/Akker/g_akk_prokka_faa/OrthoFinder"
+# root where all the orthofinder result folder(s) are located
+root="$HOME/Akker/g_akk_prokka_faa_repr_fast/OrthoFinder"
 # Specific results from orthofinder, where all the target files are located
-results_dir="${root}/Results_Nov12"
+results_dir="${root}/Results_Nov25"
 # Nx.tsv files
 Ns="${results_dir}/Phylogenetic_Hierarchical_Orthogroups"
 # Species tree
@@ -32,18 +32,25 @@ py_single_copy="${HOME}/Software/my_scripts/single_copy_hogs.py"
 
 # Move inside the orthofinder results to place all the output there
 cd $results_dir
+echo current path: `pwd`
 # Select a set of nodes from the species tree
-for node in N25 N24 N40 N9 N8 N27 N8; 
+for node in {0..13}; #N25 N24 N40 N9 N8 N27 N8; 
     do
         # Create all the HOGs sequences for each node
-        python $py_create $results_dir . $node
+        # inside HOGs_seqs will be the seqs, all the dirs will be created
+        python $py_create $results_dir HOGs_seqs N$node
         # Select the single-copy HOGs for each node
-        python $py_single_copy $Ns $node "${node}/HOG_Sequences" $tree
+        python $py_single_copy $Ns N$node "HOGs_seqs/N${node}/HOG_Sequences" $tree
+        
+        # destination for the single-copy HOGs
+        dest="single_copy_HOGs/scogs_N${node}_seqs"
+        mkdir -p $dest
         # copy the the single-copy HOGs
-        mkdir -p scogs_${node}_seqs
-        parallel "cp ${node}/HOG_Sequences/${node}.H{}.fa scogs_${node}_seqs" \
-         :::: single_copy_HOGs_${node}.list
+        parallel "cp N${node}/HOG_Sequences/{}.fa $dest" \
+         :::: single_copy_HOGs_N${node}.list
     done
 
 # Compress the sequences created by $py_create
-tar -cf hogs_seqs_nodes.tar.gz N*
+tar -cf hogs_seqs_nodes.tar.gz HOGs_seqs/N*
+# compress the single-copy HOGs
+tar -cf single_copy_HOGs.tar.gz single_copy_HOGs/

@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>HOG 1703</title>
+    <script src="https://d3js.org/d3.v3.js"></script>
+
+    <!-- Bootstrap CDN -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css"
+          integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"
+            integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ"
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"
+            integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm"
+            crossorigin="anonymous"></script>
+
+    <!-- Roboto font -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+
+    <!-- TnT -->
+    <link rel="stylesheet" href="https://tntvis.github.io/tnt/build/tnt.css" type="text/css"/>
+    <script src="https://tntvis.github.io/tnt/build/tnt.js" charset="utf-8"></script>
+
+    <!-- TnT Tooltip-->
+    <link rel="stylesheet" href="https://tntvis.github.io/tnt.tooltip/build/tnt.tooltip.css" type="text/css"/>
+    <script src="https://omabrowser.org/static/js/tnt.tooltip.min.js" charset="utf-8"></script>
+
+    <script src="https://dessimozlab.github.io/iHam/iHam.js"></script>
+    <link rel="stylesheet" href="https://dessimozlab.github.io/iHam/iHam.css" type="text/css"/>
+
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+        }
+
+        #updating {
+            position: absolute;
+            left: 20px;
+            display: none;
+        }
+
+        .alert_remove {
+            margin-bottom: 0px;
+            padding: 4px;
+            display: none;
+        }
+
+        .alert-link {
+            cursor: pointer;
+        }
+
+        #header {
+            margin-left: 20px;
+            margin-bottom: 20px;
+        }
+
+        #header > h3 {
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+
+        #menu-bar > div {
+            display: inline-block;
+        }
+
+        .dropdown-toggle {
+            padding-top: 7px;
+            padding-bottom: 7px;
+        }
+    </style>
+</head>
+<body>
+
+<div id="header">
+    <h3>Hierarchical group HOG:0000474 open at level of <span id="current-node"></span></h3>
+
+    <div id="menu-bar">
+        
+        <div id="gene-tooltips-dropdown" class="dropdown">
+            <button class="btn btn-sm btn-outline-dark dropdown-toggle" type="button" data-toggle="dropdown"
+                    aria-haspopup="true" aria-expanded="false">
+                Show gene tooltips on
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <a class="dropdown-item active" href="#">Click</a>
+                <a class="dropdown-item" href="#">Mouseover</a>
+            </div>
+        </div>
+
+        <div id="percentage-coverage-selector">
+            <button class="btn btn-sm btn-outline-dark" type="button"
+                    aria-haspopup="true" aria-expanded="false">Remove columns under <input id="set_min_coverage"
+                                                                                           type="number" step="10"
+                                                                                           value="0"
+                                                                                           min="0" max="100">% of
+                species coverage
+            </button>
+        </div>
+    </div>
+</div>
+
+<div id="updating">
+    Updating...
+</div>
+
+<div class="alert alert-info text-center alert_remove"
+     role="alert"
+>
+    Lowly supported hogs have been removed as per settings.
+    <a class="alert-link" id="reset_column_filter">Click here to reset.</a>
+</div>
+
+
+<div style="width: 1500px; min-width: 500px;" id="iham"></div>
+
+<script>
+
+    (function (div) {
+
+        const data = {
+            "tree": '((GCF_001683795,(MGYG-HGUT-04532,(((bin3c,MGYG-HGUT-03447)N21,R28__metabat2_low_PE)N15,MGYG-HGUT-03413)N10)N6)N3,(((MGYG-HGUT-02378,MGYG-HGUT-00870)N11,((MGYG-HGUT-02453,MGYG-HGUT-02452)N19,((MGYG-HGUT-02454,MGYG-HGUT-01921)N25,MGYG-HGUT-01881)N20)N12)N7,(MGYG-HGUT-02584,F157a_European_Toad__metabat2_high_PE)N8)N4)N1;',
+            "orthoxml": `<orthoXML origin="OMA standalone (bottom-up)" originVersion="Nov 2021" version="0.3" xmlns="http://orthoXML.org/2011/"><species name="MGYG-HGUT-01921" NCBITaxId="-1"><database name="None" version="None"><genes><gene id="17529" protId="JJJAFNAH_01738 hypothetical protein"/></genes></database></species><species name="MGYG-HGUT-02454" NCBITaxId="-1"><database name="None" version="None"><genes><gene id="26660" protId="FLJMMLIL_01074 hypothetical protein"/></genes></database></species><species name="MGYG-HGUT-01881" NCBITaxId="-1"><database name="None" version="None"><genes><gene id="14295" protId="GLDMPPLA_00644 hypothetical protein"/></genes></database></species><species name="MGYG-HGUT-02452" NCBITaxId="-1"><database name="None" version="None"><genes><gene id="21231" protId="KDNNPAJI_00489 hypothetical protein"/></genes></database></species><species name="MGYG-HGUT-02453" NCBITaxId="-1"><database name="None" version="None"><genes><gene id="25579" protId="NGKHPLNN_02542 hypothetical protein"/></genes></database></species><species name="MGYG-HGUT-00870" NCBITaxId="-1"><database name="None" version="None"><genes><gene id="12470" protId="DLADDLFP_01422 hypothetical protein"/></genes></database></species><species name="MGYG-HGUT-02378" NCBITaxId="-1"><database name="None" version="None"><genes><gene id="19314" protId="HAIFMAHA_01164 hypothetical protein"/></genes></database></species><species name="F157a_European_Toad__metabat2_high_PE" NCBITaxId="-1"><database name="None" version="None"><genes><gene id="1528" protId="GPIGBLJI_01563 hypothetical protein"/></genes></database></species><species name="MGYG-HGUT-02584" NCBITaxId="-1"><database name="None" version="None"><genes><gene id="27977" protId="KBNPILAJ_00085 hypothetical protein"/></genes></database></species><species name="bin3c" NCBITaxId="-1"><database name="None" version="None"><genes><gene id="39539" protId="IMCPJJDB_01165 hypothetical protein"/></genes></database></species><species name="R28__metabat2_low_PE" NCBITaxId="-1"><database name="None" version="None"><genes><gene id="38292" protId="MPBHEMIL_01987 hypothetical protein"/></genes></database></species><species name="MGYG-HGUT-03413" NCBITaxId="-1"><database name="None" version="None"><genes><gene id="31508" protId="IGCHHHLL_01202 hypothetical protein"/></genes></database></species><species name="MGYG-HGUT-04532" NCBITaxId="-1"><database name="None" version="None"><genes><gene id="36295" protId="GFNMCGMP_01872 hypothetical protein"/></genes></database></species><species name="GCF_001683795" NCBITaxId="-1"><database name="None" version="None"><genes><gene id="10279" protId="HKDNFGAC_01865 hypothetical protein"/></genes></database></species><groups><orthologGroup id="1703"><property name="TaxRange" value="N1"/><orthologGroup id="None"><property name="TaxRange" value="N4"/><orthologGroup id="None"><property name="TaxRange" value="N7"/><orthologGroup id="None"><property name="TaxRange" value="N12"/><orthologGroup id="None"><property name="TaxRange" value="N19"/><geneRef id="25579"/><geneRef id="21231"/></orthologGroup><orthologGroup id="None"><property name="TaxRange" value="N20"/><orthologGroup id="None"><property name="TaxRange" value="N25"/><geneRef id="26660"/><geneRef id="17529"/></orthologGroup><geneRef id="14295"/></orthologGroup></orthologGroup><orthologGroup id="None"><property name="TaxRange" value="N11"/><geneRef id="19314"/><geneRef id="12470"/></orthologGroup></orthologGroup><orthologGroup id="None"><property name="TaxRange" value="N8"/><geneRef id="27977"/><geneRef id="1528"/></orthologGroup></orthologGroup><orthologGroup id="None"><property name="TaxRange" value="N3"/><orthologGroup id="None"><property name="TaxRange" value="N6"/><geneRef id="36295"/><orthologGroup id="None"><property name="TaxRange" value="N10"/><orthologGroup id="None"><property name="TaxRange" value="N15"/><geneRef id="39539"/><geneRef id="38292"/></orthologGroup><geneRef id="31508"/></orthologGroup></orthologGroup><geneRef id="10279"/></orthologGroup></orthologGroup></groups></orthoXML>`,
+            "fam_data": [{"taxon": {"species": "GCF_001683795"}, "xrefid": "HKDNFGAC_01865 hypothetical protein", "sequence_length": 0, "gc_content": 0, "protid": "HKDNFGAC_01865 hypothetical protein", "id": "10279"}, {"taxon": {"species": "MGYG-HGUT-04532"}, "xrefid": "GFNMCGMP_01872 hypothetical protein", "sequence_length": 0, "gc_content": 0, "protid": "GFNMCGMP_01872 hypothetical protein", "id": "36295"}, {"taxon": {"species": "MGYG-HGUT-03413"}, "xrefid": "IGCHHHLL_01202 hypothetical protein", "sequence_length": 0, "gc_content": 0, "protid": "IGCHHHLL_01202 hypothetical protein", "id": "31508"}, {"taxon": {"species": "R28__metabat2_low_PE"}, "xrefid": "MPBHEMIL_01987 hypothetical protein", "sequence_length": 0, "gc_content": 0, "protid": "MPBHEMIL_01987 hypothetical protein", "id": "38292"}, {"taxon": {"species": "bin3c"}, "xrefid": "IMCPJJDB_01165 hypothetical protein", "sequence_length": 0, "gc_content": 0, "protid": "IMCPJJDB_01165 hypothetical protein", "id": "39539"}, {"taxon": {"species": "MGYG-HGUT-02584"}, "xrefid": "KBNPILAJ_00085 hypothetical protein", "sequence_length": 0, "gc_content": 0, "protid": "KBNPILAJ_00085 hypothetical protein", "id": "27977"}, {"taxon": {"species": "F157a_European_Toad__metabat2_high_PE"}, "xrefid": "GPIGBLJI_01563 hypothetical protein", "sequence_length": 0, "gc_content": 0, "protid": "GPIGBLJI_01563 hypothetical protein", "id": "1528"}, {"taxon": {"species": "MGYG-HGUT-02378"}, "xrefid": "HAIFMAHA_01164 hypothetical protein", "sequence_length": 0, "gc_content": 0, "protid": "HAIFMAHA_01164 hypothetical protein", "id": "19314"}, {"taxon": {"species": "MGYG-HGUT-00870"}, "xrefid": "DLADDLFP_01422 hypothetical protein", "sequence_length": 0, "gc_content": 0, "protid": "DLADDLFP_01422 hypothetical protein", "id": "12470"}, {"taxon": {"species": "MGYG-HGUT-02453"}, "xrefid": "NGKHPLNN_02542 hypothetical protein", "sequence_length": 0, "gc_content": 0, "protid": "NGKHPLNN_02542 hypothetical protein", "id": "25579"}, {"taxon": {"species": "MGYG-HGUT-02452"}, "xrefid": "KDNNPAJI_00489 hypothetical protein", "sequence_length": 0, "gc_content": 0, "protid": "KDNNPAJI_00489 hypothetical protein", "id": "21231"}, {"taxon": {"species": "MGYG-HGUT-01881"}, "xrefid": "GLDMPPLA_00644 hypothetical protein", "sequence_length": 0, "gc_content": 0, "protid": "GLDMPPLA_00644 hypothetical protein", "id": "14295"}, {"taxon": {"species": "MGYG-HGUT-02454"}, "xrefid": "FLJMMLIL_01074 hypothetical protein", "sequence_length": 0, "gc_content": 0, "protid": "FLJMMLIL_01074 hypothetical protein", "id": "26660"}, {"taxon": {"species": "MGYG-HGUT-01921"}, "xrefid": "JJJAFNAH_01738 hypothetical protein", "sequence_length": 0, "gc_content": 0, "protid": "JJJAFNAH_01738 hypothetical protein", "id": "17529"}]
+        }
+
+
+        var theme = iHam()
+                .on('node_selected', function (node) {
+                    d3.select('#current-node')
+                            .text(node.node_name());
+                })
+                .orthoxml(data.orthoxml)
+                .show_oma_link(false)
+                .newick(data.tree)
+                .fam_data(data.fam_data)
+                .tree_width(330)
+                .board_width(530)
+                .query_gene({id: 3965})
+                .on("updating", function () {
+                    d3.select("#updating")
+                            .style("display", 'block');
+                })
+                .on("updated", function () {
+                    d3.select("#updating")
+                            .style("display", "none");
+                })
+                .on("hogs_removed", function (what) {
+                    if (what.length) {
+                        d3.select(".alert_remove")
+                                .style("display", "block")
+                    } else {
+                        d3.select(".alert_remove")
+                                .style("display", "none");
+                    }
+                });
+
+        theme(div);
+
+        // Update the color schemas
+
+        // Update event for gene tooltips
+        d3.select("#gene-tooltips-dropdown")
+                .selectAll("a")
+                .on("click", function () {
+                    // Manage state of menu itself
+                    d3.select(this.parentNode).selectAll("a").classed("active", false);
+                    d3.select(this)
+                            .classed("active", true);
+
+                    if (d3.select(this).text() === "Click") {
+                        theme.gene_tooltips_on("click");
+                    }
+                    if (d3.select(this).text() === "Mouseover") {
+                        theme.gene_tooltips_on("mouseover");
+                    }
+                });
+
+        // Set minimum species coverage
+        d3.select("#percentage-coverage-selector").select("input")
+                .on("input", function () {
+                    theme.coverage_threshold(d3.select(this).property("value"));
+                });
+
+        // Reset the coverage
+        d3.select("#reset_column_filter")
+                .on("click", function () {
+                    d3.select("#percentage-coverage-selector").select("input").property("value", 0);
+                    theme.coverage_threshold(0);
+                })
+    })(document.getElementById('iham'));
+
+
+</script>
+</body>
+</html>

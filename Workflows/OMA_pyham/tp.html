@@ -1,0 +1,79 @@
+
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <title>Phylo.io</title>
+            <meta charset="UTF-8">
+            <script src="https://peterolson.github.com/BigInteger.js/BigInteger.min.js"></script>
+            <script type="text/javascript" src="https://cdn.rawgit.com/DessimozLab/phylo-io/5e89fafc3b1746b22da33c20b2af621d5807b6fb/www/js/jquery-2.1.4.min.js"></script>
+            <script type="text/javascript" src="https://cdn.rawgit.com/DessimozLab/phylo-io/9eae3d2af33f1f75bff78e393909dccfdd400650/www/js/treecompare.js"></script>
+            <script type="text/javascript" src="https://underscorejs.org/underscore-min.js"></script>
+            <script type="text/javascript" src="https://cdn.rawgit.com/DessimozLab/phylo-io/5e89fafc3b1746b22da33c20b2af621d5807b6fb/www/js/d3.min.js"></script>
+            <script type="text/javascript" src="https://cdn.rawgit.com/DessimozLab/phylo-io/5e89fafc3b1746b22da33c20b2af621d5807b6fb/www/js/bootstrap.min.js"></script>
+            <script type="text/javascript" src="https://cdn.rawgit.com/DessimozLab/phylo-io/5e89fafc3b1746b22da33c20b2af621d5807b6fb/www/js/FileSaver.min.js"></script>
+            <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/solid.css" integrity="sha384-v2Tw72dyUXeU3y4aM2Y0tBJQkGfplr39mxZqlTBDUZAb9BGoC40+rdFCG0m10lXk" crossorigin="anonymous">
+            <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/fontawesome.css" integrity="sha384-q3jl8XQu1OpdLgGFvNRnPdj5VIlCvgsDQTQB6owSOHWlAurxul7f+JpUOVdAiJ5P" crossorigin="anonymous">
+            <link rel="stylesheet" type="text/css" href="https://cdn.rawgit.com/DessimozLab/phylo-io/5e89fafc3b1746b22da33c20b2af621d5807b6fb/www/css/bootstrap.min.css">
+            <link rel="stylesheet" type="text/css" href="https://cdn.rawgit.com/DessimozLab/phylo-io/5e89fafc3b1746b22da33c20b2af621d5807b6fb/www/css/bootstrap-theme.min.css">
+            <link rel="stylesheet" type="text/css" href="https://cdn.rawgit.com/DessimozLab/phylo-io/5e89fafc3b1746b22da33c20b2af621d5807b6fb/www/css/style.css">
+            <style>
+
+            text {stroke: none;}
+
+            #help_modal_button {
+                position: fixed;
+                right: 10px;
+                margin-right: 10px; /*magic number */
+                bottom: 10px;
+                z-index: 99;
+            }
+
+            </style>
+        </head>
+        <body id="phylo">
+
+        <!-- Modal -->
+        <div class="modal  fade bs-example-modal-lg" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel">Tree profile help</h4>
+                    </div>
+                    <div class="modal-body">
+
+                        <embed src="https://cdn.rawgit.com/DessimozLab/pyham/fc01fb94/help.pdf" frameborder="0" width="100%" height="400px">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Button trigger modal -->
+        <button id="help_modal_button" type="button" class="btn btn-sm" data-toggle="modal" data-target="#myModal">
+            Help
+        </button>
+
+
+
+        <div id="vis-container1" style="width: 100%; height: 100%;">
+        <div id="scale-1"> </div>
+        </div>
+        <script type="text/javascript">
+            var treecomp = TreeCompare().init({
+                enableScale: true,
+                scaleColor: "black",
+                showHistogramValues: true,
+                showHistogramSummaryValue: true
+            });
+            treeData = '{"name": "", "numberGenes": 1217, "numberEvents": null, "length": 0.01, "collapsed": "false", "evolutionaryEvents": false, "children": [{"name": "N1", "numberGenes": 2206, "numberEvents": 989, "length": 0.01, "collapsed": "false", "evolutionaryEvents": {"retained": 1155, "duplicated": 166, "gained": 885, "lost": 0, "duplication": 104}, "children": [{"name": "N3", "numberGenes": 2164, "numberEvents": 408, "length": 0.01, "collapsed": "false", "evolutionaryEvents": {"retained": 1937, "duplicated": 96, "gained": 131, "lost": 225, "duplication": 52}, "children": [{"name": "GCF_001683795", "numberGenes": 2624, "numberEvents": 1310, "length": 0.01, "collapsed": "false", "evolutionaryEvents": {"retained": 1625, "duplicated": 251, "gained": 748, "lost": 425, "duplication": 137}}, {"name": "N6", "numberGenes": 1994, "numberEvents": 600, "length": 0.01, "collapsed": "false", "evolutionaryEvents": {"retained": 1740, "duplicated": 84, "gained": 170, "lost": 385, "duplication": 45}, "children": [{"name": "MGYG-HGUT-04532", "numberGenes": 1878, "numberEvents": 768, "length": 0.01, "collapsed": "false", "evolutionaryEvents": {"retained": 1532, "duplicated": 45, "gained": 301, "lost": 442, "duplication": 25}}, {"name": "N10", "numberGenes": 2122, "numberEvents": 354, "length": 0.01, "collapsed": "false", "evolutionaryEvents": {"retained": 1837, "duplicated": 97, "gained": 188, "lost": 113, "duplication": 53}, "children": [{"name": "N15", "numberGenes": 2132, "numberEvents": 302, "length": 0.01, "collapsed": "false", "evolutionaryEvents": {"retained": 1935, "duplicated": 87, "gained": 110, "lost": 146, "duplication": 46}, "children": [{"name": "N21", "numberGenes": 2071, "numberEvents": 285, "length": 0.01, "collapsed": "false", "evolutionaryEvents": {"retained": 1924, "duplicated": 117, "gained": 30, "lost": 173, "duplication": 82}, "children": [{"name": "bin3c", "numberGenes": 2651, "numberEvents": 996, "length": 0.01, "collapsed": "false", "evolutionaryEvents": {"retained": 1644, "duplicated": 483, "gained": 524, "lost": 208, "duplication": 264}}, {"name": "MGYG-HGUT-03447", "numberGenes": 1719, "numberEvents": 2088, "length": 0.01, "collapsed": "false", "evolutionaryEvents": {"retained": 839, "duplicated": 25, "gained": 855, "lost": 1220, "duplication": 13}}]}, {"name": "R28__metabat2_low_PE", "numberGenes": 2062, "numberEvents": 952, "length": 0.01, "collapsed": "false", "evolutionaryEvents": {"retained": 1558, "duplicated": 166, "gained": 338, "lost": 511, "duplication": 103}}]}, {"name": "MGYG-HGUT-03413", "numberGenes": 2420, "numberEvents": 1676, "length": 0.01, "collapsed": "false", "evolutionaryEvents": {"retained": 1413, "duplicated": 43, "gained": 964, "lost": 689, "duplication": 23}}]}]}]}, {"name": "N4", "numberGenes": 2387, "numberEvents": 405, "length": 0.01, "collapsed": "false", "evolutionaryEvents": {"retained": 2041, "duplicated": 109, "gained": 237, "lost": 112, "duplication": 56}, "children": [{"name": "N7", "numberGenes": 2620, "numberEvents": 709, "length": 0.01, "collapsed": "false", "evolutionaryEvents": {"retained": 2103, "duplicated": 105, "gained": 412, "lost": 238, "duplication": 59}, "children": [{"name": "N11", "numberGenes": 2468, "numberEvents": 400, "length": 0.01, "collapsed": "false", "evolutionaryEvents": {"retained": 2336, "duplicated": 20, "gained": 112, "lost": 276, "duplication": 12}, "children": [{"name": "MGYG-HGUT-02378", "numberGenes": 2578, "numberEvents": 468, "length": 0.01, "collapsed": "false", "evolutionaryEvents": {"retained": 2286, "duplicated": 6, "gained": 286, "lost": 179, "duplication": 3}}, {"name": "MGYG-HGUT-00870", "numberGenes": 2587, "numberEvents": 481, "length": 0.01, "collapsed": "false", "evolutionaryEvents": {"retained": 2280, "duplicated": 14, "gained": 293, "lost": 181, "duplication": 7}}]}, {"name": "N12", "numberGenes": 2589, "numberEvents": 217, "length": 0.01, "collapsed": "false", "evolutionaryEvents": {"retained": 2477, "duplicated": 41, "gained": 71, "lost": 124, "duplication": 22}, "children": [{"name": "N19", "numberGenes": 2403, "numberEvents": 294, "length": 0.01, "collapsed": "false", "evolutionaryEvents": {"retained": 2339, "duplicated": 20, "gained": 44, "lost": 240, "duplication": 10}, "children": [{"name": "MGYG-HGUT-02453", "numberGenes": 2520, "numberEvents": 327, "length": 0.01, "collapsed": "false", "evolutionaryEvents": {"retained": 2286, "duplicated": 28, "gained": 206, "lost": 105, "duplication": 16}}, {"name": "MGYG-HGUT-02452", "numberGenes": 2344, "numberEvents": 323, "length": 0.01, "collapsed": "false", "evolutionaryEvents": {"retained": 2209, "duplicated": 6, "gained": 129, "lost": 191, "duplication": 3}}]}, {"name": "N20", "numberGenes": 2303, "numberEvents": 482, "length": 0.01, "collapsed": "false", "evolutionaryEvents": {"retained": 2195, "duplicated": 23, "gained": 85, "lost": 384, "duplication": 13}, "children": [{"name": "N25", "numberGenes": 2275, "numberEvents": 98, "length": 0.01, "collapsed": "false", "evolutionaryEvents": {"retained": 2236, "duplicated": 8, "gained": 31, "lost": 63, "duplication": 4}, "children": [{"name": "MGYG-HGUT-02454", "numberGenes": 2272, "numberEvents": 477, "length": 0.01, "collapsed": "false", "evolutionaryEvents": {"retained": 2029, "duplicated": 12, "gained": 231, "lost": 240, "duplication": 6}}, {"name": "MGYG-HGUT-01921", "numberGenes": 2346, "numberEvents": 287, "length": 0.01, "collapsed": "false", "evolutionaryEvents": {"retained": 2164, "duplicated": 7, "gained": 175, "lost": 108, "duplication": 4}}]}, {"name": "MGYG-HGUT-01881", "numberGenes": 2173, "numberEvents": 524, "length": 0.01, "collapsed": "false", "evolutionaryEvents": {"retained": 1970, "duplicated": 12, "gained": 191, "lost": 327, "duplication": 6}}]}]}]}, {"name": "N8", "numberGenes": 2076, "numberEvents": 471, "length": 0.01, "collapsed": "false", "evolutionaryEvents": {"retained": 1981, "duplicated": 33, "gained": 62, "lost": 391, "duplication": 18}, "children": [{"name": "MGYG-HGUT-02584", "numberGenes": 2440, "numberEvents": 774, "length": 0.01, "collapsed": "false", "evolutionaryEvents": {"retained": 1836, "duplicated": 77, "gained": 527, "lost": 205, "duplication": 42}}, {"name": "F157a_European_Toad__metabat2_high_PE", "numberGenes": 1949, "numberEvents": 1069, "length": 0.01, "collapsed": "false", "evolutionaryEvents": {"retained": 1463, "duplicated": 37, "gained": 449, "lost": 598, "duplication": 22}}]}]}]}, {"name": "GCF_000172155", "numberGenes": 6501, "numberEvents": 5284, "length": 0.01, "collapsed": "false", "evolutionaryEvents": {"retained": 1138, "duplicated": 263, "gained": 5100, "lost": 0, "duplication": 184}}]}';
+            var tree1 = treecomp.addTree(treeData, undefined, "single");
+            treecomp.viewTree(tree1.name, "vis-container1", "scale-1");
+            treecomp.addMainLegend(tree1.name);
+        </script>
+        </body>
+        </html>
+        

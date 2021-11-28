@@ -1,7 +1,7 @@
 # Hierarchical OGs pipeline
 
 The new OrthoFinder pipeline defines Hierarchical OGs (HOGs) using the
-rooted gene trees instead of the gene graph approach (MCL like). According to the author, this is 12% more accurate that the previous OrthoFinder and other software.
+rooted gene trees instead of the gene graph approach (MCL like). According to the author, this is 12% more accurate (20% more with an outgroup is included) that the previous OrthoFinder and other software.
 The first step is to run OrthoFinder as always. I use the `msa`  option because can get you a more accurate species tree/results (it's a bit slower), but it isn't mandatory :
 
 ```sh

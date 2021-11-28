@@ -100,13 +100,13 @@ parallel -j $n_cores "python ranger-dtl_pipeline.py $edited_stree \
 # AggregateRanger folder is hardcoded into ranger-dtl_pipeline.py so don't change it
 aggregated_dir="${output_dir}/AggregateRanger"
 
-# Takes all the aggregated files and creates a single summary table.
-# The table is named nodes_events.tsv
+# Takes all the aggregated files created by AggregateRanger and creates a 
+# single summary table named nodes_events.tsv
 python aggregate_aggs.py -h
 python aggregate_aggs.py $aggregated_dir $sname_dict $n_seeds
 ```
 
-**Look for `nodes_events.tsv` in `ranger_workflow/RangerDTL_test` **
+**Check the files inside `${output_dir}/AggregateRanger` for the results of `AggregateRanger.Linux`, and look for `nodes_events.tsv` in `ranger_workflow/RangerDTL_test` for the summary of those files, which is the final output from this workflow**
 
 ## Dependencies
 

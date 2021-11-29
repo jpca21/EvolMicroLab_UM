@@ -7,7 +7,7 @@ This is valid for HGTector v2.0b2. Official repository here:
 `hgtector` has 3 functions/sub-tools: `database`, `search` and  `analyze`,  which for a first run, should be used in that order.
 
 
-## `database`
+## *`database`*
 
 To build the database this instruction didn't work. It is in the official repository:
 
@@ -32,7 +32,7 @@ See here for more details:
 
 <https://github.com/qiyunlab/HGTector/issues/74>
 
-(Months after I reported the error, the author responded, see the last post of the previous links**
+(Months after I reported the error, the author responded, see the last posts of the previous link**
 
 You can download the genomes in the same folder the program uses by default,`download/faa/` and then you can run `database` again and the program will continue creating the needed files. It will check that all the genomes that were selected are in the expected folder so it won't download them again:
 

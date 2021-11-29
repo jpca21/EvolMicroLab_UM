@@ -1,4 +1,4 @@
-# How to run jobs in the group computer, "coyhaique"
+# How to run jobs in the group's computer, "coyhaique"
 
 Slurm is not needed to run jobs remotely in coyhaique. Once a user is logged-in in
 the cluster, any command and/or script can be run as in one local computer. The key

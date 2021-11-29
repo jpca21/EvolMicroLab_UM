@@ -93,3 +93,11 @@ it is good practice to check first which software will be installed/upgraded bef
 ## System rescue disk
 
 In case the system cannot start a functional session, one can use a linux distribution to boot and repair the system. One distro that has been successfully used before is  **SystemRescue** (also known as SystemRescueCd) at <https://www.system-rescue.org/>.
+
+## About SELinux
+
+SELinux is a system to create and administrate permissions in the system. It has 2 different modes of operation, enforcing (default) or permissive. Run `sestatus` to see the current information about `selinux`. The configuration file is `/etc/selinux/config` and the the mode was changed to `SELINUX=permissive`, which should help with potential problems created by `SELINUX=enforcing`.
+
+More info here:
+https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/8/html-single/using_selinux/index
+

@@ -92,4 +92,4 @@ it is good practice to check first which software will be installed/upgraded bef
 
 ## System rescue disk
 
-In case the system cannot start a functional session, one can use a linux distribution to boot and repair the system. One that has been successfully used before is  **SystemRescue** (also known as SystemRescueCd) at <https://www.system-rescue.org/>.
+In case the system cannot start a functional session, one can use a linux distribution to boot and repair the system. One distro that has been successfully used before is  **SystemRescue** (also known as SystemRescueCd) at <https://www.system-rescue.org/>.

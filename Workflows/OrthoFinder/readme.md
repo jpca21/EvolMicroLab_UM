@@ -22,3 +22,5 @@ The second relevant bug is reported here (includes the solution), and affects `t
 This script generates single-copy HOGs from a list of nodes. These nodes
 have to be selected from the species tree generated after running `orthofinder -ft -s tree_file` (see `Workflows/OrthoFinder/orthofinder_HOGs_worflow.md`).
 **Check the results in `single_copy_HOGs/` and `HOGs_seqs/` inside `/mnt/DATA/jmaturana/OrthoFinder/Results_Nov25/HOGs_seqs` `@coyhaique`**
+
+Always check the `Log.txt` file inside the OrthoFinder results directory to see the command and the list of genomes used.

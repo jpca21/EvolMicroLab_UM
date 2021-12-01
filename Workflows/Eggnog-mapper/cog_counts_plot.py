@@ -4,10 +4,6 @@ import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
 
-from eggnog_to_cog_counts import eggannot_to_df
-from eggnog_to_cog_counts import merg_des_counts
-
-
 from argparse import ArgumentParser, ArgumentDefaultsHelpFormatter
 
 def arg_parser(args):
@@ -25,10 +21,10 @@ def arg_parser(args):
 def plot_cog_cats(cog_counts, x='COG_category', y='counts_%', title= None, plot_name=None):
     
     '''
-    Plots the dataframe from  `merg_des_counts()`. 
+    Plots the cog_counts table. 
     Creates a vertical barplot for counts of COG categories. Colors are created by
     color paletes in seaborn
-    Input: df created by `eggannot_to_df()`
+    Input: cog_counts table
     Output: Plot
     '''
     

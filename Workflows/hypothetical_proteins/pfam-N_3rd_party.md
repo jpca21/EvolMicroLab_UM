@@ -26,9 +26,9 @@ One can use this profile with 3rd party software like  `prokka` and `eggnog-mapp
 
 ### 3. `prokka`
 
-`prokka` doesn't have a way re-compute the predictions from a certain point, always does all the steps, so it's better to manage the dbs before running prokkafor first time. 
+`prokka` doesn't have a way to re-compute the predictions from a certain point, It always does all the steps, so it's better to manage the dbs before running prokka for the first time. 
 
-In a conda environment, `prokka` installs the dbs in `/path_to/miniconda3/envs/{env-name}/db`. You have to put the `hmpress` output files in  `/path_to/miniconda3/envs/{env-name}/db/hmm` , which should already have the `HAMAP` files included with `prokka` 
+In a conda environment, `prokka` installs the dbs in `/path_to/miniconda3/envs/{env-name}/db`. You have to place the `hmpress` output files in  `/path_to/miniconda3/envs/{env-name}/db/hmm` , which should already have the `HAMAP` files included with `prokka`:
 
 ```sh
 # check the output
@@ -39,6 +39,7 @@ $ prokka --listdb
 [16:17:55] * HMMs: HAMAP pfam_N
 [16:17:55] * CMs: Archaea Bacteria Viruses
 ```
+
 **For the akkermansia dataset, prokka wasn't run with this extra db**
 
 ### 4. `hmm_mapper.py` from `eggnog-mapper`

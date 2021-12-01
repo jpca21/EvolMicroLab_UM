@@ -24,7 +24,7 @@ Profiles (remainder) pressed into: pfam_N.hmm.h3p
 
 One can use this profile with 3rd party software like  `prokka` and `eggnog-mapper`
 
-### `prokka`
+### 3. `prokka`
 
 `prokka` doesn't have a way re-compute the predictions from a certain point, always does all the steps, so it's better to manage the dbs before running prokkafor first time. 
 
@@ -41,7 +41,7 @@ $ prokka --listdb
 ```
 **For the akkermansia dataset, prokka wasn't run with this extra db**
 
-### `hmm_mapper.py` from `eggnog-mapper`
+### 4. `hmm_mapper.py` from `eggnog-mapper`
 
 The output files from `hmmpress` can be used with  `hmm_mapper.py`, which is included with `eggnog-mapper`.
 
@@ -51,7 +51,7 @@ hmm_mapper.py  -i $input  --cpu 8 --database $db /path/to/pfam_N.hmm -o $output 
 pfam_N.hmm is the common preffix of the files created by `hmmpress`
 
 
-### Manually run `hmmscan/hmmsearch`
+### 5. Manually run `hmmscan/hmmsearch`
 
 (todo)
 

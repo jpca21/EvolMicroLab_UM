@@ -36,6 +36,10 @@ rep_fasta="akk_hyp_clu90_70_rep.fasta"
  
 mmseqs convert2fasta $sub_clusters_dir/$sub_clusters_name $rep_fasta
 
+# Get the mappings between cluster representatives and members
+cluster_tsv="akk_annot_clu.tsv"
+mmseqs createtsv $db_dir/$db_name $db_dir/$db_name $clusters_dir/$clusters_name $cluster_tsv
+
 echo **How many sequences are in the original fasta and in the representatives fasta?**
 
 rg -c '^>' $fasta

@@ -10,6 +10,10 @@ https://xfam.wordpress.com/2021/03/24/google-research-team-bring-deep-learning-t
 
 ### 1. Download `Pfam-N.gz` aligment from Pfam ftp.
 
+Pfam-A 35 was recently released but Pfam-N haven't been updated yet.
+
+http://ftp.ebi.ac.uk/pub/databases/Pfam/releases/Pfam34.0/
+
 ### 2.  Prepare a profile database for `hmmscan` with `hmmpress`
 
 ```sh

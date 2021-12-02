@@ -18,8 +18,9 @@ clusters_name="akk_hypo_clu"
 
 # Clustering by 90% mutual coverage, 70% identity
 mkdir $clusters_dir
+min_seq_id=0.7
 mmseqs cluster $db_dir/$db_name $clusters_dir/$clusters_name tmp --cov-mode 0 -c 0.9 \
- --min-seq-id 0.7 --threads 8
+ --min-seq-id $min_seq_id --threads 8
  
 # Create a "sub-db" and get the representative sequences in fasta format
 

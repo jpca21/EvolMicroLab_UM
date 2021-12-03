@@ -5,7 +5,7 @@ from collections import defaultdict
 import pickle
 ```
 
-**For the original files, check the folder `/mnt/DATA/jmaturana/Hypothetical_proteins/`**:
+**For the original files, check the folder `/mnt/DATA/jmaturana/Hypothetical_proteins/` @coyhaique**:
 
 - `akker_hypothetical.emapper.annotations` : `emapper` results using as input all the hypothetical proteins
 - `akk_hypo_clu90-85.emapper.annotations` : `emapper` results using as input the cluster representatives from hypothetical proteins

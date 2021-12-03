@@ -22,7 +22,7 @@ min_seq_id=0.7
 mmseqs cluster $db_dir/$db_name $clusters_dir/$clusters_name tmp --cov-mode 0 -c 0.9 \
  --min-seq-id $min_seq_id --threads 8
  
-# Create a "sub-db" and get the representative sequences in fasta format
+# Create a "sub-db" and get the representatives' sequences in fasta format
 
 sub_clusters_dir="mmseqs_cluster90_70_sub"
 sub_clusters_name="akk_hypo_clu_rep"

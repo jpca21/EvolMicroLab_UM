@@ -30,9 +30,13 @@ def arg_parser(args):
                         help = "output file with the list of selected genes")
     parser.add_argument('ncores', type=int, default=4,
                         help = "Number of parallel processes run by seqkit (one per single fasta file created)")
-    parser.add_argument('--min_number',  type=int, default=100,
-                        help = "Selection criteria depending on the number of members of a "
+    parser.add_argument('--min_number',  type=int, default=15,
+                        help = "Selection criteria depending on the minimum number of members of a "
                         " cluster. E.g. 30 means select clusters with 30 or more  members"
+                        )
+    parser.add_argument('--max_number',  type=int, default=100,
+                        help = "Selection criteria depending on the maximum number of members of a "
+                        " cluster. E.g. 100 means select clusters with 100 or less members"
                         )
     args = parser.parse_args()
     
@@ -104,7 +108,8 @@ def main(args=None):
         rep_genes_not_annot_num[rep] = len(map_dic_hyp[rep])
 
     # Selection by number of members per cluster
-    subset = [gene for gene,num in rep_genes_not_annot_num.items() if num >= args.min_number]
+    subset = [gene for gene,num in rep_genes_not_annot_num.items() 
+                if num >= args.min_number and num <= args.max_number]
     print(f'{len(subset)} selected genes')
     # Write the list of genes to out_file
     with open(args.out_file, 'w') as fh:

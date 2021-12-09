@@ -16,8 +16,8 @@ def arg_parser(args):
                                          '  ')
 
     parser.add_argument('hhr_dir',
-                        help = 'Directory where the output .hhr files produced by HHBlits,'
-                        ' are located.')
+                        help = 'Input files. Directory where the output produced by HHBlits,'
+                        ' .hhr files, are located.')
     parser.add_argument('out_dir',
                         help = 'Directory where the output pickle file, "high_prob.pkl", will be placed'
                         ' ')

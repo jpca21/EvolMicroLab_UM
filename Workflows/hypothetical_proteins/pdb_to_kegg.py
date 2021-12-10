@@ -5,12 +5,16 @@ import pickle
 import re
 import Bio.KEGG.REST as kgrest
 from bioservices import UniProt
-
+## PDBe
 import requests # used for getting data from a URL
-from solrq import Q # used to turn result queries into the right format
+from solrq import Q # used to turn kresult queries into the right format
 
-# the rest of the URL used for PDBe's search API.
+# The code to use the PDBe API comes from https://github.com/PDBeurope/pdbe-api-training 
+# notebook 6_PDB_search.ipynb
+
+# The URL used for PDBe's search API.
 search_url = "https://www.ebi.ac.uk/pdbe/search/pdb/select?"
+
 
 
 from argparse import ArgumentParser, ArgumentDefaultsHelpFormatter
@@ -88,22 +92,27 @@ def build_table(pickle_file, out_table):
             search_terms = Q(pdb_id=pdb_id)
             filter_terms = ['entry_uniprot_accession', 'entry_uniprot_id']
             results = run_search(search_terms,filter_terms=filter_terms)
-            acc = results[0]['entry_uniprot_accession'][0]
-            u = UniProt()
-            d = u.mapping(fr='ID', to='KEGG_ID', query=acc)
-            # Sometimes there isn't a result so d is empty
-            if d:
-                kegg_gene = d[acc][0] #1st element of the values
-                result = kgrest.kegg_link("ko", kegg_gene).read()
-                ko = result.strip().split('\t')[1]
-                print(kegg_gene)
+#             results may be [{}]
+            if results[0]:
+                uacc = results[0]['entry_uniprot_accession'][0]
+                uid = results[0]['entry_uniprot_id'][0]
+                u = UniProt()
+                d = u.mapping(fr='ID', to='KEGG_ID', query=uacc)
+                if d:
+                    kegg_gene = d[uacc][0] #1st element of the values
+                    kresult = kgrest.kegg_link("ko", kegg_gene).read().strip()
+                    if kresult:
+                        ko = kresult.strip().split('\t')[1]
+                    else:
+                        print(f"the KEGG gene {kegg_gene} didn't return a valid result")
+                        ko = ''
             # Write empty strings where there isn't a result
             else:
-                print(f"{acc} didn't get any results in the KEGG DB")
-                kegg_gene = ''
-                ko = ''
+                print(f"Results is empty: {results}")
+                uacc = ''
+                uid = ''
             with open(out_table, 'a') as fh:
-                print(gene, pdb_id, acc, results[0]['entry_uniprot_id'][0], kegg_gene, ko,
+                print(gene, pdb_id, uacc, uid, kegg_gene, ko,
                       file=fh, sep='\t')
 
 

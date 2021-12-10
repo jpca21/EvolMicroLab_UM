@@ -1,0 +1,21 @@
+#!/bin/bash -l
+
+#SBATCH --nodes=1
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=12
+#SBATCH --mem=50G
+#SBATCH --job-name=mtest_reps
+#SBATCH --output=modeltest_reps.out
+#SBATCH --error=mnodeltest_reps.err
+
+conda deactivate
+conda activate bif2020.1
+
+echo `date`
+
+genome='concatenated_rep_new.fa'
+partition='concatenated_rep_new.fa.part.txt'
+
+modeltest-ng -i "$genome" -t ml -p 12 -d aa --partitions "$partition" -m LG,JTT
+
+echo `date`

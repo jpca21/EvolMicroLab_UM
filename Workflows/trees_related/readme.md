@@ -1,0 +1,1 @@
+The `Align_single-copy_genes.sh` and `concat_alignments.py` work together aligning single-copy OGs and cocatenating these MSAs afterwards. `raxml_part_to_nexus.py` converts the output from `modeltest-ng` (see `modeltest_reps.job`) into a nexus partition file, which compatible with `iqtree`. The output from `modeltest-ng` is only compatible with `raxml/raxml-ng`.

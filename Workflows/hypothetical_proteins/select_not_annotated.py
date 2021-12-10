@@ -13,8 +13,8 @@ def arg_parser(args):
     parser = ArgumentParser(formatter_class=ArgumentDefaultsHelpFormatter, 
                             description='Select representative cluster sequences that were not'
                                          ' annotated by eggnog-mapper (no KO) and creates a fasta file for'
-                                         '  each one. Apart of being not annotated proteins, the clusters'
-                                         ' representatives are selected by the minimum number of members (cluster size)')
+                                         ' each one. The clusters representatives may also be selected by'
+                                         ' the minimum and maximum number of members (cluster size).')
 
     parser.add_argument('eggnog_annot',
                         help = 'Eggnog-mapper annotation file'

@@ -1,0 +1,37 @@
+#!/bin/bash -l
+
+#SBATCH --nodes=1
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=32
+#SBATCH --mem=90G
+#SBATCH --job-name=dbcan_humgut
+#SBATCH --output=dbcan_humgut.out
+#SBATCH --error=dbcan_humgut.err
+
+# export PATH="$PATH:/data_1/jmaturana/Software/signalp-4.1"
+export PATH="/home/jmaturana/miniconda3/envs/bif2020.1/bin:$PATH"
+
+db_dir="/data_1/jmaturana/DBs/dbcan"
+faas="/data_1/jmaturana/Humgut/prokka_out"
+faas_list="/data_1/jmaturana/Humgut/dbcan_todo.list"
+out_root="/data_1/jmaturana/Humgut/dbcan_out"
+
+ 
+# Optional: After `protein`, `-c GCF_xxxxx.gff` can be added to also use CGCfinder.
+# With prokka's gffs, an error raises and this is probably because prokka includes the sequences after the
+# actual gff content, so the gff parser fails. With gffs without sequences (e.g. from ncbi),
+# it should work (I haven't tried it, but given the error message it seems like it).
+# `--gram all` only if signalp is used
+
+mkdir -p $out_root
+
+parallel -j4 --tmpdir /dev/shm "run_dbcan.py {} protein --out_dir $out_root/{/.}  --dia_cpu 8 \
+ --hmm_cpu 8 --hotpep_cpu 8 --tf_cpu 8 --db_dir $db_dir" ::: $faas/*.faa
+#  :::: $faas_list
+#  ::: $faas/*.faa
+
+### At line 162 of run_dbcan.py, `-b12 -c1` was added to increase speed. This come from the original log given by run_dbcan.py,### 
+### where diamond suggested that given the amount of memory available. ###
+# os.system('diamond blastp -d %sCAZy -e %s -q %suniInput -k 1 -p %d -o %sdiamond.out -f 6 -b12 -c1'%(dbDir, str(args.dia_eval), outPath, args.dia_cpu, outPath))
+
+#### This code took a bit more than 14 days to run (31 thousand genomes from Humgut) ####

@@ -1,0 +1,17 @@
+#!/bin/bash -l
+
+#SBATCH --nodes=1
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=32
+#SBATCH --mem=60G
+#SBATCH --job-name=compressing
+#SBATCH --output=compressing.out
+#SBATCH --error=compressing.err
+
+export PATH="/home/jmaturana/miniconda3/envs/bif2020.1/bin:$PATH"
+
+root="/data_1/jmaturana/Humgut"
+
+cd ${root}
+echo "PWD: `pwd`"
+tar --use-compress-program='xz -T 32' -cf dbcan_humgut.tar.xz dbcan_out

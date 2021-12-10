@@ -50,7 +50,7 @@ Use `du -shc /dir/path` to see the size of a directory.
 Each user has to make a directory in `/mnt/DATA/` named after its user name, which will 
 be used as its personal folder. **Users have to place most of their files here**.
 
-### Databases
+## Databases
 
 Most of the time databases should be shared among users. Databases are only read by programs (they don't modify them) 
 and frequently are big (at least a few GBs). Databases should be placed in `/mnt/DATA/DBs`. In this folder, all the 
@@ -65,7 +65,7 @@ This is mainly for software installation (only 500 GB)
 install anaconda and all its environments here.
 
 
-### Anaconda
+## Anaconda
 
 <https://docs.anaconda.com/anaconda/install/index.html>
 
@@ -86,18 +86,23 @@ with `conda`.
 
 check <https://github.com/mamba-org/mamba>
 
-## About system updates
+# About system updates
 
 it is good practice to check first which software will be installed/upgraded before running `yum update`. Sometimes, given the importance of the software to be updated, may be sensible to update the system only when a user with admin permissions is present phisically where the computer is located, in case any problem arises after the updates.
 
-## System rescue disk
+# System rescue disk
 
 In case the system cannot start a functional session, one can use a linux distribution to boot and repair the system. One distro that has been successfully used before is  **SystemRescue** (also known as SystemRescueCd) at <https://www.system-rescue.org/>.
 
-## About SELinux
+# About SELinux
 
 SELinux is a system to create and administrate permissions in the system. It has 2 different modes of operation, enforcing (default) or permissive. Run `sestatus` to see the current information about `selinux`. The configuration file is `/etc/selinux/config` and the the mode was changed to `SELINUX=permissive`, which should help with potential problems created by `SELINUX=enforcing`.
 
 More info here:
 https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/8/html-single/using_selinux/index
 
+# About system performance and disk use
+
+Some times the performance of a process depends on the disk performance (I/O) and not the memory/cores available. Many times, e.g. when using big databases, reading the database(s) from the disk is the bottleneck. Some solutions involved moving the database(s) into a very fast disk, as a SSD, or put the DBs into a `tmpfs`/ `/dev/shm`, a temporal RAM disk, which is by default defined in modern Linux (see it with `df -h`). This is a RAM disk and can be re-mounted with a different size, but one has to consider the RAM used by the tasks running. Also, if multiuple users are running disk intensive tasks, one user can move the relavant files to another disk (`Lacie` or the SSD) while the other user uses the main RAID array. All the previous really only matters for big jobs, but it can make a really big difference in terms of running time in some cases. For relevant examples about this topic, check the `hhsuite` and `egnogg-mapper` wikis in github. 
+
+<https://www.cyberciti.biz/tips/what-is-devshm-and-its-practical-usage.html>

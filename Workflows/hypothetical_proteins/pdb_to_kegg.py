@@ -106,11 +106,13 @@ def build_table(pickle_file, out_table):
                     else:
                         print(f"the KEGG gene {kegg_gene} didn't return a valid result")
                         ko = ''
-            # Write empty strings where there isn't a result
+            # Write empty strings when there isn't a valid result
             else:
                 print(f"Results is empty: {results}")
                 uacc = ''
                 uid = ''
+                kegg_gene = ''
+                ko = ''
             with open(out_table, 'a') as fh:
                 print(gene, pdb_id, uacc, uid, kegg_gene, ko,
                       file=fh, sep='\t')

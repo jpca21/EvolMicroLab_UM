@@ -87,6 +87,10 @@ def build_table(pickle_file, out_table):
         print('gene\tpdb_id\tuniprot_acc\tuniprot_id\tkegg_gene\tKO', file=fh)
 
     for d in selected_pdbs:
+        uacc = ''
+        uid = ''
+        kegg_gene = ''
+        ko = ''
         for gene, vals in d.items():
             pdb_id = vals[0][0].lower()
             search_terms = Q(pdb_id=pdb_id)
@@ -109,10 +113,6 @@ def build_table(pickle_file, out_table):
             # Write empty strings when there isn't a valid result
             else:
                 print(f"Results is empty: {results}")
-                uacc = ''
-                uid = ''
-                kegg_gene = ''
-                ko = ''
             with open(out_table, 'a') as fh:
                 print(gene, pdb_id, uacc, uid, kegg_gene, ko,
                       file=fh, sep='\t')

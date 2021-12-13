@@ -12,11 +12,11 @@
 # conda deactivate
 conda activate bif2021
 
-# This job creates a table for a subset of "hypotetical proteins" from prokka, but also 
-# with no KO annotations from eggnog-mapper. The input is a directory of hhr files, produced
+# This job creates a table for a subset of "hypotetical proteins" from prokka which 
+# also didn't have KO annotations from eggnog-mapper. The input is a directory of hhr files, produced
 # by a run of hhblits using the "pdb70" DB against these "hypotetical proteins" (check hhsuite wiki).
 # Dependencies: Apart from python >= 3.6, the second script needs solrq, which can be installed with pip
-# (Not available in conda)i and bioservices (bioconda)
+# (Not available in conda) and bioservices (bioconda)
 
 echo `date`
 SECONDS=0
@@ -26,10 +26,11 @@ py_pdb_to_kegg="/home/jmaturana/Software/cli_tools/hypothetical_proteins/pdb_to_
 in_hhr="/mnt/DATA/jmaturana/Hypothetical_proteins/hhrs"
 out_dir="/mnt/DATA/jmaturana/Hypothetical_proteins"
 
+# This creates creates "high_prob.pkl" inside $out_dir
 python $py_hhblits $in_hhr $out_dir
 
-# The next step uses the Uniprot and KEGG API, so it takes a few seconds per query/gene. 
-# The previous script creates "high_prob.pkl" in the $out_dir and will be used as input for the step below
+# The next step uses the Uniprot and KEGG API, so it takes a few seconds per query/gene,
+# which may result in several minutes if hundred of genes are being searched
 python $py_pdb_to_kegg "${out_dir}/high_prob.pkl" "${out_dir}/pdb_300k_uni_ko.tsv"
 
 duration=$SECONDS

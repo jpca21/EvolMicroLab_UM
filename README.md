@@ -1,5 +1,5 @@
 # EvolMicroLab_UM
-This repostory is the Main Group Repository. 
+Main Group Repository. 
 
 ## More links
 

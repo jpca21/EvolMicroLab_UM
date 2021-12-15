@@ -8,3 +8,10 @@ All the python scripts include a short help text, so you should see it before us
 ```sh
 python script.py -h
 ```
+### Other github repos
+
+The workflow and most of the code inside `hypothetical_proteins` has been converted into two `snakemake` workflows:
+
+<https://github.com/matrs/Annnotate_clusters>
+
+<https://github.com/matrs/Alig_to_pdb>

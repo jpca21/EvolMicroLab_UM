@@ -1,5 +1,5 @@
 # EvolMicroLab_UM
-This repostory is the Main Group Repository. 
+Main Group Repository. 
 
 ## More links
 
@@ -8,3 +8,4 @@ This repostory is the Main Group Repository.
 ##### Procedure: [using cutadapt in Coyhaique](https://github.com/jpca21/EvolMicroLab_UM/blob/main/procedure_01.md)
 ##### [Miscellaneous scripts that may be useful](Various_scripts/)
 ##### [Worflows](Various_scripts/)
+##### [Some custom Conda environments](https://github.com/jpca21/EvolMicroLab_UM/blob/main/conda_environments/README.md)

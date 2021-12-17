@@ -10,8 +10,6 @@ python script.py -h
 ```
 ### Other github repos
 
-The workflow and most of the code inside `hypothetical_proteins` has been converted into two `snakemake` workflows:
+The workflow and most of the code inside `hypothetical_proteins` has been converted into a `snakemake` workflow:
 
-<https://github.com/matrs/Annnotate_clusters>
-
-<https://github.com/matrs/Alig_to_pdb>
+https://github.com/matrs/Annotating_from_PDB

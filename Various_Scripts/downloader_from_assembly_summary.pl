@@ -25,6 +25,7 @@ while (my $l1 = <B>) {
 	my @matrix_1 = split ("\t", $l1);
 	my $A = $matrix_1[0];
 	my $B = $matrix_1[15];
+	$B =~ s/ /_/g;
 	my $url = $matrix_1[19];
 	my $neoUrl = "$url/$A\_$B\_genomic.gbff.gz";
 	print "$neoUrl\n";

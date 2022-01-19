@@ -1,0 +1,1 @@
+The following scripts are made to use the `emapper` output for the generation of a file suitable for the use of KEGG mapper. This file could be used to compare at least two organisms (or two conditions) put in a metadata file. 

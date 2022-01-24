@@ -24,7 +24,7 @@ fi
 export PATH
 ```
 
-With those changes, you can then activate the `metawrap` environment:
+To apply the changes, just type `source ~/.bashrc` in your terminal (or log out and log in again). With those changes, you can then activate the `metawrap` environment:
 
 ```
 conda activate metawrap

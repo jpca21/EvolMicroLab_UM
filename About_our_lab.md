@@ -15,3 +15,13 @@ This lab work is supported by ANID Initiation grant #11200209 (Chile).
 ## About the lab leader
 
 Juan Pablo Cárdenas (ORCID: 0000-0001-6715-7270) has a BSc in Biochemistry from the University of Santiago de Chile (USACH) and a Ph.D. in Biotechnology from the Andrés Bello University (UNAB, Chile). With previous experience in biotechnology start-ups working on the human microbiome, JPCA started at Nov. 2019 his position as assistant professor at the Center for Genomics and Bioinformatics (CGB). 
+
+## About the members
+
+ * Damariz Gonzalez (Bioinformatician, _Universidad de Talca_). Research Assistant
+ * Mauricio Morales (Biotecnology, _Universidad Mayor_). Undergraduate thesis student
+ * Boris Vidal (Biochemistry, _Universidad Austral de Chile_). Graduate student
+
+## Past members
+
+ * Jose Luis Maturana (Bioinformatician, _Universidad de Chile_). Former research Assistant

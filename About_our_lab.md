@@ -18,10 +18,10 @@ Juan Pablo Cárdenas (ORCID: 0000-0001-6715-7270) has a BSc in Biochemistry from
 
 ## About the members
 
- * Damariz Gonzalez (Bioinformatician, _Universidad de Talca_). Research Assistant
+ * Dámariz Gonzalez (Bioinformatician, _Universidad de Talca_). Research assistant
  * Mauricio Morales (Biotecnology, _Universidad Mayor_). Undergraduate thesis student
  * Boris Vidal (Biochemistry, _Universidad Austral de Chile_). Graduate student
 
 ## Past members
 
- * Jose Luis Maturana (Bioinformatician, _Universidad de Chile_). Former research Assistant
+ * José Luis Maturana (Bioinformatician, _Universidad de Chile_). Former research assistant

@@ -1,0 +1,9 @@
+#FOR RUN
+
+python script.py
+
+
+#Make sure to have tab separated files 
+#If you want to generate pcoa and pca with Rscript, add a column name to the first column associates
+#with taxonomic informtion
+#Open the matrix.tsv and add "family" at the beggining

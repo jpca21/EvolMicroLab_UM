@@ -37,7 +37,9 @@ And then using in from the bin folder.
 The [EggNog mapper tool](https://github.com/eggnogdb/eggnog-mapper) is our favorite functional annotation tool. The recommended installation only requires the creation of a _Conda_ environment:
 
 ```
- conda install -c bioconda eggnog-mapper 
+conda create -n eggnog-mapper
+conda activate eggnog-mapper
+conda install -c bioconda eggnog-mapper 
 ```
 
 In `Coyhaique`, the Eggnog mapper databases are already present in the folder `/mnt/DATA/DBs/data`.

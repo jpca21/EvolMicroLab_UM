@@ -31,3 +31,34 @@ conda activate metawrap
 ```
 
 And then using in from the bin folder.
+
+## Setting and using `eggnog-mapper` in your session 
+
+The [EggNog mapper tool](https://github.com/eggnogdb/eggnog-mapper) is our favorite functional annotation tool. The recommended installation only requires the creation of a _Conda_ environment:
+
+```
+ conda install -c bioconda eggnog-mapper 
+```
+
+In `Coyhaique`, the Eggnog mapper databases are already present in the folder `/mnt/DATA/DBs/data`.
+
+A nice example of a executing script for its use could be:
+
+```
+##### START
+echo `date`
+
+##### Activating Conda
+source ~/.bashrc
+conda activate eggnog-mapper
+
+##### if you have several faa files in a same folder, you can do this
+for aa in *.faa; do bb=`echo $aa | sed "s/.faa$//" ` ; echo $bb ; \
+emapper.py --cpu 30 -i $aa -m diamond --sensmode very-sensitive \
+-d /mnt/DATA/DBs/data \
+--go_evidence non-electronic --target_orthologs all -o $bb ; done
+
+##### END
+
+```
+

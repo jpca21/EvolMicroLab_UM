@@ -61,7 +61,8 @@ NSsites = 2 * 0:one w;1:neutral;2:selection ...
 cleandata = 1 * remove sites with ambiguity ...
 ```
 * IMPORTANT: the combiantions of parameters depends of your goal, so there are more parameters avalaible. Search in literature for more detail. 
-* 
+* There are some codon models to estimate natural selection, depending on your goal, select the best for your data based on literature. 
+
 
 
 

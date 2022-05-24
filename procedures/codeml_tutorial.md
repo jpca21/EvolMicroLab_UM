@@ -6,7 +6,7 @@
 
 ---------------
 
-1. Installing PAML and CODEML.
+## 1. Installing PAML and CODEML.
 
 (PAML official page)[http://abacus.gene.ucl.ac.uk/software/paml.html]
 
@@ -17,12 +17,12 @@ There is a GUI and a terminal version. We recommend that you use the terminal ve
 Some recommendations from PAML:
 >A number of example datasets are included in the package. They are typically datasets analyzed in the original papers that described the methods. I suggest that you get a copy of the paper, and run the example datasets to reproduce our results first, before analyzing your own data. This should serve to identify errors in the program, help you to get familiar with the format of the data file and the interpertation of results.
 
-2. Data needed.
+## 2. Data needed.
 
 * Fasta files of nucleotide and amino acids of protein of interest (both files must to have the same headers).
 * Tree file that contain the information about all the secuences. 
 
-3. Process summary.
+## 3. Process summary.
 
 * Identified homologs.
 * Build multiple sequence alignment (MSA).
@@ -30,5 +30,13 @@ Some recommendations from PAML:
 * Phylogeny inferences.
 * Estimates of the effect of natural selection on protein-coding.
 
-4. Get the sequences data.
+## 4. Get the sequences files.
 
+* Download genomes from the corresponding database, for example, NCBI.
+* Use python or perl (or some other available program) to extract the coding sequences of interest.
+* Once the sequence is obtained, make sure you have the sequences in fasta format, both in nucleotides and amino acids.
+* Proceed to generate the sequences in codon format, using the PAL2NAL program (PAL2NAL official page)[http://www.bork.embl.de/pal2nal/], which takes the amino acid and nucleotide sequences to obtain the codons.
+
+## 5. Use IQ-Tree to estimate the phylogeny.
+
+* Estimate the phylogeny. A recommended program is IQ-tree (IQ-Tree official page)[http://www.iqtree.org/].

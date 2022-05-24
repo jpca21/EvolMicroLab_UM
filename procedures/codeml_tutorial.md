@@ -19,4 +19,16 @@ Some recommendations from PAML:
 
 2. Data needed.
 
-* Fasta files 
+* Fasta files of nucleotide and amino acids of protein of interest (both files must to have the same headers).
+* Tree file that contain the information about all the secuences. 
+
+3. Process summary.
+
+* Identified homologs.
+* Build multiple sequence alignment (MSA).
+* Quality control of MSA.
+* Phylogeny inferences.
+* Estimates of the effect of natural selection on protein-coding.
+
+4. Get the sequences data.
+

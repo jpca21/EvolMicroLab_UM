@@ -48,9 +48,20 @@ Some recommendations from PAML:
 * To add support for branch and node length estimation, it is necessary to use a non-parametric test. IQ-tree has UFBoot (analysis for bootstrap support). Depending on the size of the data (number of sequences) you can choose between 100-1,000-10,000 bootstrap.
 * If more analyzes are necessary for the estimation of the phylogeny, all depends on your goal. Phylogeny estimation delivers a set of files, which includes the phylogenetic tree.
 
-## Omega (dN/dS) estimation.
+## 6. Omega (dN/dS) estimation.
 
-*
+* Use CODEML package to estimate natural selection. Creates a text file (codeml.ctl) with contain the specific instructions of each parameters used for the program. Here an example of this file: 
+```
+seqfile = Ceacam_seq.txt * sequence data filename
+treefile = Ceacam_tree.txt * tree structure file name
+outfile = Ceacam_ModelA.out * main result file name
+seqtype = 1 * 1:codons; 2:AAs; 3:codons-->AAs
+model = 2 * models for codons ...
+NSsites = 2 * 0:one w;1:neutral;2:selection ...
+cleandata = 1 * remove sites with ambiguity ...
+```
+* IMPORTANT: the combiantions of parameters depends of your goal, so there are more parameters avalaible. Search in literature for more detail. 
+* 
 
 
 

@@ -39,4 +39,20 @@ Some recommendations from PAML:
 
 ## 5. Use IQ-Tree to estimate the phylogeny.
 
-* Estimate the phylogeny. A recommended program is IQ-tree (IQ-Tree official page)[http://www.iqtree.org/].
+* Estimate the phylogeny. A recommended program is IQ-tree (IQ-Tree official page)[http://www.iqtree.org/]. For more information about the program, visit the manual on the official page. 
+* Using the sequences in nucleotides, it´s neccessary to proceed with the MSA, we recommend use MAFFT or ClustaW. IQ-Tree accept Fasta or Phylip formats. 
+* If you need more information about the MSA, visit the official page of your selected MSA (MAFFT official page)[https://mafft.cbrc.jp/alignment/server/]. In this case, you need to use the sequences in nucleotides. 
+* After the MSA, you need to use the MSA quality control. There are some programs that could help you, your selection depends on your goal (phylogeny inference, postraductional modifications, etc.).
+* To estimate the phylogeny it is necessary to find and select the substitution model that best fits the data. For this, in the first analysis it is necessary to use ModelFinder (included in IQ-Tree).
+* Once the best model has been found, it is necessary to return to the analysis but this time select the model selected.
+* To add support for branch and node length estimation, it is necessary to use a non-parametric test. IQ-tree has UFBoot (analysis for bootstrap support). Depending on the size of the data (number of sequences) you can choose between 100-1,000-10,000 bootstrap.
+* If more analyzes are necessary for the estimation of the phylogeny, all depends on your goal. Phylogeny estimation delivers a set of files, which includes the phylogenetic tree.
+
+## Omega (dN/dS) estimation.
+
+*
+
+
+
+
+

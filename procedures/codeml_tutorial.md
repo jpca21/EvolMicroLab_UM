@@ -50,7 +50,9 @@ Some recommendations from PAML:
 
 ## 6. Omega (dN/dS) estimation.
 
-* Use CODEML package to estimate natural selection. Creates a text file (codeml.ctl) with contain the specific instructions of each parameters used for the program. Here an example of this file: 
+* Use CODEML package to estimate natural selection. What is PAML and their CODEML package?
+> PAML is a package of programs designed to analyze molecular sequences and estimate a variety of parameters of molecular evolution. We concern ourselves here only with estimates of ω, and attempts to detect positive selection using the CODEML application in PAML.
+* Creates a text file (codeml.ctl) with contain the specific instructions of each parameters used for the program. Here an example of this file: 
 ```
 seqfile = Ceacam_seq.txt * sequence data filename
 treefile = Ceacam_tree.txt * tree structure file name
@@ -62,4 +64,9 @@ cleandata = 1 * remove sites with ambiguity ...
 ```
 * IMPORTANT: the combiantions of parameters depends of your goal, so there are more parameters avalaible. Search in literature for more detail. 
 * There are some codon models to estimate natural selection, depending on your goal, select the best for your data based on literature. 
+* How select a model? Well, ask yourself and read more literature depending on your goal. 
+> The more likely scenario is that positive selection has occurred in some branches of the phylogeny, or in some specifi c sites in the gene or only in specifi c sites in some branches of the phylogeny. Each of these possibilities is formalized into a “model,” so that possible processes of evolution can be tested for explicitly.
+* The principal models are branch models, site models and branch-site models. Based on our research, site models are a good way to look for natural selection, because this model allows omega to vary only within specific sites of the genes, in all the species analyzed. There are 5 models to evaluate (if you want to know more about each of them, please search in literature): 
+```One ratio model (MO), nearly neutral model (M1a), positive selection model (M2a), beta model (M7) and beta-omega model (M8).```
+* Theses models provide you withe the parameters that are its best fit to the data and likehood value (L).
 * 

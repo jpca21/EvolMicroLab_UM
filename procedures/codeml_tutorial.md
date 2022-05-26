@@ -62,31 +62,4 @@ cleandata = 1 * remove sites with ambiguity ...
 ```
 * IMPORTANT: the combiantions of parameters depends of your goal, so there are more parameters avalaible. Search in literature for more detail. 
 * There are some codon models to estimate natural selection, depending on your goal, select the best for your data based on literature. 
-* Here, we are going to show the Branch-site Codon Model A. Serves as the basis to formally test the hypotgesis that sites evolver under positive selection. Here an example of codeml.ctl script to test this model (first run): 
-```
-seqfile = Ceacam_seq.txt * sequence data filename
-treefile = Ceacam_tree.txt * tree structure file name
-outfile = Ceacam_MA_Null.out * main result file name
-seqtype = 1 * 1:codons; 2:AAs; 3:codons-->AAs
-model = 2 * models for codons ...
-NSsites = 2 * 0:one w;1:neutral;2:selection ...
-fix_omega = 1 * 1: omega_1 fixed, 0: estimate
-omega = 1 * initial or fixed omega, for ...
-cleandata = 1 * remove sites with ambiguity ...
-```
-* IMPORTANT: if you want to preserve each result, you must to change the name of each file after CODEML ran (these files are overwritten each time the program is run). 
-* Run again the codeml.ctl (change the name):
-```
-seqfile = Ceacam_seq.txt * sequence data filename
-treefile = Ceacam_tree.txt * tree structure file name
-outfile = Ceacam_MA_alt.out * main result file name
-seqtype = 1 * 1:codons; 2:AAs; 3:codons-->AAs
-model = 2 * models for codons ...
-NSsites = 2 * 0:one w;1:neutral;2:selection ...
-fix_omega = 0 * 1: omega_1 fixed, 0: estimate
-omega = 1 * initial or fixed omega, for ...
-cleandata = 1 * remove sites with ambiguity ...
-```
-* Inspect ```rst files``` and compare them, especifically MLEs of the model parameters obtained under bothe the null and alternative versions of Model A. 
-
-
+* 
